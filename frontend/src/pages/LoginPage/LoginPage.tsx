@@ -1,5 +1,6 @@
 import styles from "./LoginPage.module.less"
 import {useEffect, useState} from "react";
+import {RememberPasswordButton} from "./components/RememberPasswordButton/RememberPasswordButton.tsx";
 export function LoginPage() {
 
 
@@ -9,7 +10,7 @@ export function LoginPage() {
                 <div className={styles.content}>
                     <div className={styles.row}>
                         <div className={styles.image}/>
-                        <Login></Login>
+                        <Register/>
                     </div>
                 </div>
             </div>
@@ -42,8 +43,61 @@ function Login(){
     return (
         <div className={styles.main}>
             <h1 className={styles.title}>登录</h1>
-            <input value={username} placeholder={"用户名"}/>
-            <input value={password} placeholder={"密码"}/>
+            <input
+                type={"text"}
+                value={username}
+                placeholder={"用户名"}
+                onChange={(e) => {
+                    setUsername(() => e.target.value)
+                }}/>
+            <input
+                type={"password"}
+                value={password}
+                placeholder={"密码"}
+                onChange={(e)=>{
+                    setPassword(() => e.target.value)
+                }}
+            />
+            <RememberPasswordButton onClick={()=>{setRemember(!remember)}} state={remember}></RememberPasswordButton>
+            <button>
+                登 录
+            </button>
+        </div>
+    )
+}
+export function Register(){
+    const [username,setUsername]=useState("")
+    const [password,setPassword]=useState("")
+    const [passwordConfirm,setPasswordConfirm]=useState("")
+    return (
+        <div className={styles.main}>
+            <h1 className={styles.title}>注册</h1>
+            <input
+                type={"text"}
+                placeholder={"用户名"}
+                value={username}
+                onChange={(e)=>{
+                    setUsername(()=>e.target.value)
+                }}
+            />
+            <input
+                type={"password"}
+                placeholder={"密码"}
+                value={password}
+                onChange={(e)=>{
+                    setPassword(() => e.target.value)
+                }}
+            />
+            <input
+                type={"password"}
+                placeholder={"确认密码"}
+                value={passwordConfirm}
+                onChange={(e)=>{
+                    setPasswordConfirm(()=>e.target.value)
+                }}
+            />
+            <div style={{height:"10%",width:"100%"}}/>
+            <button>注 册</button>
         </div>
     )
 }
