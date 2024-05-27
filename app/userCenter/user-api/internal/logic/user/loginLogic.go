@@ -35,6 +35,6 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 	//_ = copier.Copy(resp, loginResp)
 	return &types.LoginResp{
-		Status: int(loginResp.Status),
+		Status: loginResp.Status,
 	}, nil
 }

@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"github.com/jinzhu/copier"
 	"mygo/app/userCenter/user-rpc/userservice"
 
 	"mygo/app/userCenter/user-api/internal/svc"
@@ -36,6 +35,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	if err != nil {
 		return nil, err
 	}
-	_ = copier.Copy(&resp, registerResp)
-	return resp, nil
+	return &types.RegisterResp{
+		Status: registerResp.Status,
+	}, nil
 }

@@ -34,6 +34,6 @@ func (l *SendMessageLogic) SendMessage(req *types.SendMessageReq) (resp *types.S
 	}
 
 	return &types.SendMessageResp{
-		Status: int(sendCodeResp.Status),
+		Status: sendCodeResp.Status,
 	}, nil
 }

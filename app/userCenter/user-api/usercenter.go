@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 
 	"mygo/app/userCenter/user-api/internal/config"
 	"mygo/app/userCenter/user-api/internal/handler"
@@ -22,7 +23,10 @@ func main() {
 
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
-
+	err := c.SetUp()
+	if err != nil {
+		log.Fatal(err)
+	}
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
