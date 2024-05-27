@@ -1,0 +1,85 @@
+div.background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(275deg, #a58bf388, #57fbf288);
+    backdrop-filter: blur(15px);
+    z-index: -100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+
+    div.content {
+        z-index: 0;
+        min-width: 800px;
+        min-height: 400px;
+        height: 50vh;
+        width: 50vw;
+        background: white;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: black 1px 1px 3px;
+
+        div.row {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+
+            div.image {
+                flex: 0.60;
+                background: url("../../assets/pages/LoginPage/image.png");
+                background-size: cover;
+                //border-right: 2px lightblue solid;
+
+            }
+
+            div.main {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                flex: 0.4;
+                h1.title{
+                    width: 100%;
+                    text-align: center;
+                    font-size: 40px;
+                    letter-spacing: 10px;
+                    color: #a00000;
+                    background-image:-webkit-linear-gradient(top, #d0bcf4, #88fde1);
+                    -webkit-background-clip:text;
+                    -webkit-text-fill-color:transparent;
+                    //border: 1px black solid;
+                }
+                input{
+                    width: 80%;
+                    height: 8%;
+                    font-size: 24px;
+                    &::placeholder{
+                        color:gray;
+                    }
+                    border: none;
+                    border-bottom: 2px solid #7d83d1;
+                    outline:none;
+                    transition: all 0.5s;
+                    &:hover{
+                        border-bottom: 2px solid #abe1ff;
+                        transform: scale(1.05);
+                    }
+                    &:focus{
+                        border-bottom: 2px solid #83fb9d;
+                    }
+                    margin-top: 10%;
+                }
+                input:nth-child(1){
+                    margin-top: 0;
+                }
+
+            }
+        }
+
+    }
+}
