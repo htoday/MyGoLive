@@ -84,12 +84,21 @@ export function Register(props:{
             document.title=""
         }
     }, []);
+    const [mobile,setMobile]=useState("")
     const [username,setUsername]=useState("")
     const [password,setPassword]=useState("")
     const [passwordConfirm,setPasswordConfirm]=useState("")
     return (
         <div className={styles.main}>
             <h1 className={styles.title}>注册</h1>
+            <input
+                type={"text"}
+                placeholder={"手机号"}
+                value={mobile}
+                onChange={(e)=>{
+                    setMobile(()=>e.target.value)
+                }}
+            />
             <input
                 type={"text"}
                 placeholder={"用户名"}
