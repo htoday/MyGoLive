@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message RegisterReq {
+  string mobile = 1;
+  string username = 4;
+  string password = 2;
+  string code = 3;
+}
+
+message RegisterResp {
+  int64 status=200;
+
+}
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+message LoginResp {
+  int64 status=200;
+  string token = 1;
+  int64 ExpireTime=2;
+  int64 RefreshAfter=3;
+}
+message GetCodeReq{
+  string mobile = 1;
+}
+message GetCodeResp{
+  int64 status = 2;
+}
+service UserService{
+  rpc Register (RegisterReq) returns (RegisterResp);
+  rpc Login (LoginReq) returns (LoginResp);
+  rpc GetCode(GetCodeReq) returns (GetCodeResp);
+}

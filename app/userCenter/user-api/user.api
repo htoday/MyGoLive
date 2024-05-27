@@ -1,0 +1,53 @@
+syntax = "v1"
+
+type (
+	// 定义登录接口的请求体
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	// 定义登录接口的响应体
+	LoginResp {
+		Status       int    `json:"status"`
+		Token        string `json:"token"`
+		ExpireTime   int64  `json:"expire_time"`
+		RefreshAfter int64  `json:"refreshAfter"`
+	}
+	RegisterReq {
+		Mobile   string `json:"mobile"`
+		Code     string `json:"code"`
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	RegisterResp {
+		Status int `json:"status"`
+	}
+	SendMessageReq {
+		Mobile string `json:"mobile"`
+	}
+	SendMessageResp {
+		Status int `json:"status"`
+	}
+)
+
+@server (
+	prefix: /v1
+	//我是路由前缀
+	group: user
+//我是服务分组(会放在一个文件夹下)
+//jwt: Auth
+)
+service usercenter {
+	@doc "register"
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+
+	@doc "login"
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+
+	@doc "sendMessage"
+	@handler sendMessage
+	post /user/register/sendMessage (SendMessageReq) returns (SendMessageResp)
+}
+

@@ -1,0 +1,12 @@
+Name: demo-api
+Host: 0.0.0.0
+Port: 8866
+KqConsumerConf:
+  Name: kqConsumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: kqConsumer
+  Topic: codeSender
+  Offset: first
+  Consumers: 8
+  Processors: 8

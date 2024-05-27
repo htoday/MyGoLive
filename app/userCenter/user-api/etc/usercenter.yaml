@@ -1,0 +1,21 @@
+Name: usercenter
+Host: 0.0.0.0
+Port: 8888
+DB:
+  DataSource: root:1234@tcp(localhost:3306)/testDB?charset=utf8mb4&parseTime=True&loc=Local
+#Auth:
+#  AccessSecret: "12345678"
+Telemetry:
+  Name: user-api
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+Prometheus:
+  Host: 0.0.0.0
+  Port: 4008
+  Path: /metrics
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
