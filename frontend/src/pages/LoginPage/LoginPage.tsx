@@ -1,6 +1,7 @@
 import styles from "./LoginPage.module.less"
 import {useEffect, useState} from "react";
 import {RememberPasswordButton} from "./components/RememberPasswordButton/RememberPasswordButton.tsx";
+import {baseData} from "../../data/BaseData.ts";
 export function LoginPage() {
 
     const [mode,setMode]=useState(0)
@@ -88,6 +89,29 @@ export function Register(props:{
     const [username,setUsername]=useState("")
     const [password,setPassword]=useState("")
     const [passwordConfirm,setPasswordConfirm]=useState("")
+    const handleRegister = () => {
+        const url =baseData.server.getBaseUrl()+"/api/user/register"
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                mobile: mobile,
+                username: username,
+                password: password,
+                code:0,
+            })
+        }).then(res => {
+            if (!res.ok) throw new Error(res.status.toString())
+            return res.json()
+        }).then(() => {
+            alert("注册成功!")
+            props.setMode()
+        }).catch(err=>{
+            alert("注册失败:"+err)
+        })
+    }
     return (
         <div className={styles.main}>
             <h1 className={styles.title}>注册</h1>
@@ -125,7 +149,7 @@ export function Register(props:{
             />
 
             <a onClick={props.setMode}>返回登录界面</a>
-            <button>注 册</button>
+            <button onClick={handleRegister}>注 册</button>
         </div>
     )
 }
