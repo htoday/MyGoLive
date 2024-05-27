@@ -3,14 +3,15 @@ import {useEffect, useState} from "react";
 import {RememberPasswordButton} from "./components/RememberPasswordButton/RememberPasswordButton.tsx";
 export function LoginPage() {
 
-
+    const [mode,setMode]=useState(0)
     return (
         <>
             <div className={styles.background}>
                 <div className={styles.content}>
                     <div className={styles.row}>
                         <div className={styles.image}/>
-                        <Register/>
+                        {mode==0&& <Login setMode={()=>{setMode(1)}}/>}
+                        {mode==1&&<Register setMode={()=>{setMode(0)}}/>}
                     </div>
                 </div>
             </div>
@@ -19,7 +20,15 @@ export function LoginPage() {
 
     )
 }
-function Login(){
+function Login(props:{
+    setMode:()=>void
+}){
+    useEffect(() => {
+        document.title = "登录界面"
+        return ()=>{
+            document.title=""
+        }
+    }, []);
     const [remember, setRemember] = useState(false)
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -59,13 +68,22 @@ function Login(){
                 }}
             />
             <RememberPasswordButton onClick={()=>{setRemember(!remember)}} state={remember}></RememberPasswordButton>
+            <a onClick={props.setMode}>还没有账号?点我</a>
             <button>
                 登 录
             </button>
         </div>
     )
 }
-export function Register(){
+export function Register(props:{
+    setMode:()=>void
+}){
+    useEffect(() => {
+        document.title = "注册界面"
+        return ()=>{
+            document.title=""
+        }
+    }, []);
     const [username,setUsername]=useState("")
     const [password,setPassword]=useState("")
     const [passwordConfirm,setPasswordConfirm]=useState("")
@@ -96,7 +114,8 @@ export function Register(){
                     setPasswordConfirm(()=>e.target.value)
                 }}
             />
-            <div style={{height:"10%",width:"100%"}}/>
+
+            <a onClick={props.setMode}>返回登录界面</a>
             <button>注 册</button>
         </div>
     )
