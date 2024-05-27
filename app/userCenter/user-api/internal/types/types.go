@@ -7,7 +7,7 @@ type LoginReq struct {
 }
 
 type LoginResp struct {
-	Status       int    `json:"status"`
+	Status       int64  `json:"status"`
 	Token        string `json:"token"`
 	ExpireTime   int64  `json:"expire_time"`
 	RefreshAfter int64  `json:"refreshAfter"`
@@ -21,7 +21,7 @@ type RegisterReq struct {
 }
 
 type RegisterResp struct {
-	Status int `json:"status"`
+	Status int64 `json:"status"`
 }
 
 type SendMessageReq struct {
@@ -29,5 +29,5 @@ type SendMessageReq struct {
 }
 
 type SendMessageResp struct {
-	Status int `json:"status"`
+	Status int64 `json:"status"`
 }

@@ -8,7 +8,7 @@ type (
 	}
 	// 定义登录接口的响应体
 	LoginResp {
-		Status       int    `json:"status"`
+		Status       int64  `json:"status"`
 		Token        string `json:"token"`
 		ExpireTime   int64  `json:"expire_time"`
 		RefreshAfter int64  `json:"refreshAfter"`
@@ -20,13 +20,13 @@ type (
 		Password string `json:"password"`
 	}
 	RegisterResp {
-		Status int `json:"status"`
+		Status int64 `json:"status"`
 	}
 	SendMessageReq {
 		Mobile string `json:"mobile"`
 	}
 	SendMessageResp {
-		Status int `json:"status"`
+		Status int64 `json:"status"`
 	}
 )
 
