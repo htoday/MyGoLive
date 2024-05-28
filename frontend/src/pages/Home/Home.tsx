@@ -1,12 +1,15 @@
 import {BottomMenu} from "./components/BottomMenu/BottomMenu.tsx";
 import {useState} from "react";
 import styles from "./Home.module.less"
+import {Channel} from "./pages/Channel/Channel.tsx";
 export function Home() {
     const [index, setIndex] = useState(0)
     return (
         <>
             <div className={styles.background}>
-                Home
+                <div className={styles.page_area}>
+                    {index===1&&<Channel/>}
+                </div>
             </div>
             <BottomMenu
                 onIndexChange={(index) => {
