@@ -1,0 +1,81 @@
+div.bottom_center{
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    ul.bottom_menu{
+        position: relative;
+        width: 60%;
+        background: #e4d6ff;
+
+        bottom: 2%;
+
+        left: auto;
+        right: auto;
+        border: 2px gray solid;
+        box-shadow: gray 1px 1px 2px ;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 50px;
+        padding-left: 0;
+        li{
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+           // border: 1px black solid;
+            z-index: 200;
+        }
+        li.unselected{
+            transition: all 0.5s ease-in-out;
+            display: inline-block;
+            user-select: none;
+            border-radius: 50px;
+            color: white;
+            list-style: none;
+            padding: 10px;
+            font-size: 24px;
+            font-family: "Microsoft YaHei UI",sans-serif;
+            font-weight: 600;
+
+            text-align: center;
+
+        }
+        li:hover{
+            cursor: pointer;
+            //text-decoration: #63ffd5 2px solid underline;
+            color: #808acf;
+        }
+        li.selected{
+            transition: all 0.5s ease-in-out;
+            display: inline-block;
+            user-select: none;
+            border-radius: 50px;
+            color: white;
+            list-style: none;
+            padding: 10px;
+            font-size: 24px;
+            font-family: "Microsoft YaHei UI",sans-serif;
+            font-weight: 600;
+            //text-decoration: #a1fbb7 2px solid underline;
+
+        }
+        div.follow{
+            position: absolute;
+            top: 0;
+            z-index: 100;
+            width: 25%;
+            height: 100%;
+            border-radius: 50px;
+            background: #b287fa55;
+            left: 0;
+        }
+    }
+    z-index: 100;
+}
