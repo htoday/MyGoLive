@@ -1,0 +1,74 @@
+syntax = "v1"
+
+type (
+	Room {
+		roomId    int64  `json:"roomId"`
+		roomName  string `json:"roomName"`
+		roomOwner string `json:"roomOwner"`
+		viewerNum int64  `json:"viewerNum"`
+	}
+	CreatRoomReq {
+		username string `json:"username"`
+		roomName string `json:"roomName"`
+	}
+	CreatRoomResp {
+		roomId int64 `json:"roomId"`
+		status int64 `json:"status"`
+	}
+	JoinRoomReq {
+		username string `json:"username"`
+		roomId   int64  `json:"roomId"`
+	}
+	JoinRoomResp {
+		status int64 `json:"status"`
+	}
+	//    LeaveRoomReq {
+	//        username string `json:"username"`
+	//    }
+	//    LeaveRoomResp {
+	//        status int64 `json:"status"`
+	//    }
+	CloseRoomReq {
+		username string `json:"username"`
+		roomId   int64  `json:"roomId"`
+	}
+	CloseRoomResp {
+		status int64 `json:"status"`
+	}
+	GetRoomListReq {
+		page int64 `json:"page"`
+	}
+	GetRoomListResp {
+		status   int64  `json:"status"`
+		roomList []Room `json:"roomList"`
+	}
+)
+
+@server (
+	prefix: /v1
+	//我是路由前缀
+	group: room
+//我是服务分组(会放在一个文件夹下)
+//jwt: Auth
+)
+service roomCenter {
+	@doc "creatRoom"
+	@handler creatRoom
+	post /creatRoom (CreatRoomReq) returns (CreatRoomResp)
+
+	@doc "joinRoom"
+	@handler joinRoom
+	post /joinRoom (JoinRoomReq) returns (JoinRoomResp)
+
+	//加入房间其实应该是websocket连接，这里只是为了安全性（判断房间是否存在）
+	//加入房间的websocket请求应该把token放在请求头，username放在请求体
+	//退出房间其实也是聊天，发送一个特殊信息给服务器，服务器判断是退出房间还是聊天
+	@doc "closeRoom"
+	@handler closeRoom
+	post /closeRoom (CloseRoomReq) returns (CloseRoomResp)
+
+	@doc "getRoomList"
+	@handler getRoomList
+	post /getRoomList (GetRoomListReq) returns (GetRoomListResp)
+}
+

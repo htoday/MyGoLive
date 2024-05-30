@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message Room {
+    int64 roomId = 1;
+    string roomName = 2;
+    string roomOwner = 3;
+    int64 viewerNum = 4;
+}
+
+message CreateRoomRequest {
+    string username = 1;
+    string roomName = 2;
+}
+
+message CreateRoomResponse {
+    int64 roomId = 1;
+    int64 status = 2;
+}
+message JoinRoomRequest {
+    int64 roomId = 1;
+    string username = 2;
+}
+
+message JoinRoomResponse {
+    int64 status = 1;
+}
+
+message CloseRoomRequest {
+    int64 roomId = 1;
+    string username = 2;
+}
+
+message CloseRoomResponse {
+    int64 status = 1;
+}
+message GetRoomRequest {
+    int64 page=1;
+}
+message GetRoomResponse {
+    int64 status = 1;
+    repeated Room rooms = 2;
+}
+
+service RoomService {
+    rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+    rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);
+    rpc CloseRoom (CloseRoomRequest) returns (CloseRoomResponse);
+    rpc GetRoom (GetRoomRequest) returns (GetRoomResponse);
+}

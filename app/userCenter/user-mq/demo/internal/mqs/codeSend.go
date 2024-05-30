@@ -2,6 +2,7 @@ package mqs
 
 import (
 	"context"
+	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 	"mygo/app/userCenter/user-mq/demo/internal/svc"
 )
@@ -20,6 +21,6 @@ func NewPaymentSuccess(ctx context.Context, svcCtx *svc.ServiceContext) *Payment
 
 func (l *PaymentSuccess) Consume(key, val string) error {
 	logx.Infof("PaymentSuccess key :%s , val :%s", key, val)
-	println("Send Code %s and key is %s", val, key)
+	fmt.Printf("Send Code %s and key is %s", val, key)
 	return nil
 }

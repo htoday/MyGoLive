@@ -7,8 +7,5 @@ import (
 
 type Config struct {
 	rest.RestConf
-	UserRpcConf zrpc.RpcClientConf
-	//Auth        struct {
-	//	AccessSecret string
-	//}
+	RoomRpcConf zrpc.RpcClientConf
 }

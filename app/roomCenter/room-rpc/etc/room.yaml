@@ -1,0 +1,19 @@
+Name: room.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: room.rpc
+
+Telemetry:
+  Name: room-rpc
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+DB:
+  DataSource: root:1234@tcp(localhost:3306)/testDB?charset=utf8mb4&parseTime=True&loc=Local
+
+RedisConf:
+  Host: localhost:6379
+  Type: node
+  Pass: ""
