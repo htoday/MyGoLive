@@ -1,3 +1,4 @@
+
 div.background {
     position: absolute;
     left: 0;
@@ -11,24 +12,27 @@ div.background {
     align-items: center;
     justify-content: center;
     user-select: none;
-
+    @font-face{
+        font-family: "External_Font_1";
+        src: url("../../assets/pages/LoginPage/Haiyanzhishidongdong-Regular-2.ttf");
+    }
     div.content {
         z-index: 0;
         min-width: 800px;
         min-height: 400px;
-        height: 50vh;
+        height: 55vh;
         width: 50vw;
         background: white;
         border-radius: 10px;
         position: relative;
         box-shadow: black 1px 1px 3px;
-
+        overflow: clip;
         div.row {
             width: 100%;
             display: flex;
             flex-direction: row;
             height: 100%;
-
+            justify-content: space-between;
             div.image {
                 flex: 0.60;
                 background: url("../../assets/pages/LoginPage/image.png");
@@ -44,11 +48,12 @@ div.background {
                 align-items: center;
                 flex: 0.4;
                 h1.title{
+                    font-family: External_Font_1, serif;
+                    font-weight: 1000;
                     width: 100%;
                     text-align: center;
                     font-size: 40px;
                     letter-spacing: 10px;
-                    color: #a00000;
                     background-image:-webkit-linear-gradient(top, #d0bcf4, #88fde1);
                     -webkit-background-clip:text;
                     -webkit-text-fill-color:transparent;
@@ -58,11 +63,20 @@ div.background {
                     width: 80%;
                     height: 8%;
                     font-size: 24px;
+                    color: #414141;
+                    font-family: External_Font_1,sans-serif;
                     &::placeholder{
-                        color:gray;
+                        background-image:-webkit-linear-gradient(top, gray, gray);
+                        -webkit-background-clip:text;
+                        -webkit-text-fill-color:transparent;
+                        font-family: External_Font_1,sans-serif;
                     }
+                    background-image:-webkit-linear-gradient(top, #d0bcf4, #88fde1);
+                    -webkit-background-clip:text;
+                    -webkit-text-fill-color:transparent;
                     border: none;
-                    border-bottom: 2px solid #7d83d1;
+                    font-weight: 300;
+                    border-bottom: 2px solid #44c7ff;
                     outline:none;
                     transition: all 0.5s;
                     &:hover{
@@ -72,12 +86,50 @@ div.background {
                     &:focus{
                         border-bottom: 2px solid #83fb9d;
                     }
-                    margin-top: 10%;
-                }
-                input:nth-child(1){
-                    margin-top: 0;
+                    margin-top: 7%;
                 }
 
+            }
+
+            a {
+                width: 80%;
+                text-align: end;
+                background-image: -webkit-linear-gradient(top, #d0bcf4, #88fde1);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-size: 24px;
+                font-weight: 600;
+                font-family: External_Font_1,sans-serif;
+                text-decoration: #88fde1 2px solid underline;
+                transition: all 0.5s ease-in-out;
+                &:hover{
+                    cursor: pointer;
+                    background-image: -webkit-linear-gradient(top, #edbcf4, #88e2fd);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    text-decoration:   #88e2fd 2px solid underline;
+                }
+            }
+            button{
+                margin-top: 5%;
+                width: 60%;
+                height: 10%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50px;
+                background: -webkit-linear-gradient(top, #d0bcf455, #88fde155);
+                color: #afe2f1;
+                font-size: 28px;
+                font-weight: 300;
+                font-family: "Microsoft YaHei UI",sans-serif;
+                text-shadow: #808acf 1px 1px 1px;
+                border: rgba(139, 139, 139, 0.5) 2px solid;
+                transition: all 0.5s;
+                &:hover{
+                    transform: scale(1.05);
+                    cursor: pointer;
+                }
             }
         }
 

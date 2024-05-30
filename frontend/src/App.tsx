@@ -1,4 +1,4 @@
-import {WebsiteRouter} from "./pages/router/Router.tsx";
+import {WebsiteRouter} from "./pages/Router/Router.tsx";
 
 function App() {
   return (
