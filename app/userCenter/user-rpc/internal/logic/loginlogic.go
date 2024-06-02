@@ -2,6 +2,9 @@ package logic
 
 import (
 	"context"
+	"errors"
+	"github.com/golang-jwt/jwt/v4"
+	"time"
 
 	"mygo/app/userCenter/user-rpc/internal/svc"
 	"mygo/app/userCenter/user-rpc/pb/pb"
@@ -25,6 +28,33 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginResp, error) {
 	// todo: add your logic here and delete this line
+	user, err := l.svcCtx.DB.FindOneByUsername(l.ctx, in.Username)
+	if err != nil {
+		logx.Error(err)
+		return nil, err
+	}
 
-	return &pb.LoginResp{Status: 200, Token: "", ExpireTime: 100, RefreshAfter: 100}, nil
+	// 检查密码是否正确
+	if user.Password != in.Password { // 注意：在实际应用中，你应该对密码进行加密处理
+		return nil, errors.New("invalid password")
+	}
+
+	token, _ := generateToken(in.Username)
+	return &pb.LoginResp{
+		Status:       200,
+		Token:        token,
+		ExpireTime:   time.Now().Add(time.Hour * 24).UnixMilli(), // 你需要根据你的需求来设置这个值
+		RefreshAfter: time.Now().Add(time.Hour * 12).UnixMilli(), // 你需要根据你���需求来设置这个值
+	}, nil
+}
+
+func generateToken(username string) (string, error) {
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"iss": "htoday",
+		"sub": username,
+		"exp": time.Now().Add(time.Hour * 24).UnixMilli(),
+	})
+	secretKey := "666666"
+	return token.SignedString(secretKey)
 }

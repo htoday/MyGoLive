@@ -1,0 +1,26 @@
+syntax = "v1"
+
+type (
+	TalkWSReq {
+		username string `json:"username"`
+	}
+)
+
+@server (
+	prefix: /v1
+	//我是路由前缀
+	group: talk
+//我是服务分组(会放在一个文件夹下)
+//jwt: Auth
+)
+service talkCenter {
+	@doc "talkWS"
+	@handler TalkWS
+	post /ws/room (TalkWSReq)
+
+	//我是创建房间
+	@doc "serveHome"
+	@handler ServeHome
+	get /room
+}
+

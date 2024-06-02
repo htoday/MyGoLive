@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"strconv"
 
 	"mygo/app/roomCenter/room-rpc/internal/svc"
 	"mygo/app/roomCenter/room-rpc/pb/pb"
@@ -25,6 +26,12 @@ func NewJoinRoomLogic(ctx context.Context, svcCtx *svc.ServiceContext) *JoinRoom
 
 func (l *JoinRoomLogic) JoinRoom(in *pb.JoinRoomRequest) (*pb.JoinRoomResponse, error) {
 	// todo: add your logic here and delete this line
-
-	return &pb.JoinRoomResponse{}, nil
+	exists, err := l.svcCtx.RDB.Exists("room:" + strconv.FormatInt(in.RoomId, 10))
+	if err != nil {
+		return nil, err
+	}
+	if exists == false {
+		return &pb.JoinRoomResponse{Status: 400}, nil
+	}
+	return &pb.JoinRoomResponse{Status: 200}, nil
 }
