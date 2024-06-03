@@ -1,0 +1,49 @@
+div.center{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    div.content{
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        height: 30px;
+        width: 60%;
+        min-width: 300px;
+        gap:10px;
+
+        img{
+            height: 25px;
+            width: 25px;
+            transition: all 0.5s ease-in-out;
+            &:hover{
+                cursor: pointer;
+                transform: scale(1.05);
+
+            }
+            margin-right:0;
+
+            user-select: none;
+        }
+        input{
+            height: 20px;
+            border-radius: 15px;
+            width: 60%;
+            outline: none;
+            padding-left: 5px;
+            font-weight: 400;
+            letter-spacing:0.5px;
+            font-family: "Microsoft YaHei UI",sans-serif;
+            &::placeholder{
+                color:gray;
+            }
+            border: 2px solid black;
+
+        }
+    }
+
+}

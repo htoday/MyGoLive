@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {RememberPasswordButton} from "./components/RememberPasswordButton/RememberPasswordButton.tsx";
 import {baseData} from "../../data/BaseData.ts";
 import {isPhone, oneRunningAsync} from "../../utils/Utils.ts";
+import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse} from "../../api/user.ts";
 
 export function LoginPage() {
 
@@ -36,23 +37,7 @@ function Login(props:{
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const handleLogin = oneRunningAsync(async () => {
-        class LoginRequest {
-            constructor(
-                public username: string,
-                public password: string,
-            ) {
-            }
-        }
 
-        class LoginResponse {
-            constructor(
-                public status: boolean,
-                public token: string,
-                public expireTime: number,
-                public refreshAfter: number,
-            ) {
-            }
-        }
 
         if (!(username && password)) {
             alert("请输入用户名和密码")
@@ -62,7 +47,7 @@ function Login(props:{
             localStorage.setItem("rememberUsername", username)
             localStorage.setItem("rememberPassword", password)
         }
-        const url = baseData.server.getBaseUrl() + "/api/user/login"
+        const url = baseData.server.getBaseUrl() + "/user/login"
         return await fetch(url, {
             method: "POST",
             headers: {
@@ -160,23 +145,8 @@ export function Register(props:{
     const [password,setPassword]=useState("")
     const [passwordConfirm,setPasswordConfirm]=useState("")
     const handleRegister = oneRunningAsync(async () => {
-        class RegisterRequest {
-            constructor(
-                public mobile: string,
-                public username: string,
-                public password: string,
-                public code: number,
-            ) {
-            }
-        }
 
-        class RegisterResponse {
-            constructor(
-                public status: number
-            ) {
-            }
-        }
-        const url =baseData.server.getBaseUrl()+"/api/user/register"
+        const url =baseData.server.getBaseUrl()+"/user/register"
         return await fetch(url, {
             method: "POST",
             headers: {

@@ -38,7 +38,7 @@ export function BottomMenu(props:{
     const list=[] as JSX.Element[]
     for(let i=0;i<props.menuList.length;i++){
         list.push(
-            <li className={i===props.index?styles.selected:styles.unselected}
+            <li key={i} className={i===props.index?styles.selected:styles.unselected}
                 onClick={()=>props.onIndexChange(i)}
             >{props.menuList[i]}</li>
         )
