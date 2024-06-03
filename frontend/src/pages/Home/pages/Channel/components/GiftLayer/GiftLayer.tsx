@@ -31,7 +31,7 @@ export function GiftLayer(props:{
     }, [props]);
 
     return(
-        <div className={styles.layer} ref={layerRef}>
+        <div draggable={false} className={styles.layer} ref={layerRef}>
             这是礼物层 无法被点击 用于描述送礼物的特效
         </div>
     )
