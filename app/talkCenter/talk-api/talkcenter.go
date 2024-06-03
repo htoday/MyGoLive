@@ -4,15 +4,15 @@ import (
 	"flag"
 	"fmt"
 
-	"mygo/app/roomCenter/room-api/internal/config"
-	"mygo/app/roomCenter/room-api/internal/handler"
-	"mygo/app/roomCenter/room-api/internal/svc"
+	"mygo/app/talkCenter/talk-api/internal/config"
+	"mygo/app/talkCenter/talk-api/internal/handler"
+	"mygo/app/talkCenter/talk-api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "app/roomCenter/room-api/etc/roomcenter.yaml", "the config file")
+var configFile = flag.String("f", "app/talkCenter/talk-api/etc/talkcenter.yaml", "the config file")
 
 func main() {
 	flag.Parse()

@@ -1,6 +1,6 @@
 Name: usercenter
 Host: 0.0.0.0
-Port: 8888
+Port: 8887
 DB:
   DataSource: root:1234@tcp(localhost:3306)/testDB?charset=utf8mb4&parseTime=True&loc=Local
 #Auth:

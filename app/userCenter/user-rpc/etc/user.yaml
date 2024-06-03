@@ -21,3 +21,6 @@ KqPusherConf:
   Brokers:
     - 127.0.0.1:9092
   Topic: codeSender
+CacheConf:
+  - Host: 127.0.0.1:6379
+    Pass:

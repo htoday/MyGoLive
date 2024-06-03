@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-var addr = flag.String("addr", ":8081", "http service address")
+var addr = flag.String("addr", ":8080", "http service address")
 var house = make(map[string]*Hub)
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL)
-	if r.URL.Path != "/" {
-		http.Error(w, "Not found", http.StatusNotFound)
-		return
-	}
+	//if r.URL.Path != "/" {
+	//	http.Error(w, "Not found", http.StatusNotFound)
+	//	return
+	//}
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -24,15 +24,23 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 }
 func main() {
 	flag.Parse()
-	hub := NewHub()
-	go hub.run()
-	http.HandleFunc("/", serveHome)
-	http.HandleFunc("/ws/{room}", func(w http.ResponseWriter, r *http.Request) {
+	r := mux.NewRouter()
+	r.HandleFunc("/{room}", serveHome)
+	r.HandleFunc("/ws/{room}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		room := vars["room"]
+		roomId := vars["room"]
+		room, ok := house[roomId]
+		var hub *Hub
+		if ok {
+			hub = room
+		} else {
+			hub = NewHub()
+			house[roomId] = hub
+			go hub.run()
+		}
 		serveWs(hub, w, r)
 	})
-	err := http.ListenAndServe(*addr, nil)
+	err := http.ListenAndServe(*addr, r)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
