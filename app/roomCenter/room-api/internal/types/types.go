@@ -29,6 +29,17 @@ type GetRoomListResp struct {
 	RoomList []Room `json:"roomList"`
 }
 
+type GetRoomPushAddressReq struct {
+	RoomId   int64  `json:"roomId"`
+	Username string `json:"username"`
+}
+
+type GetRoomPushAddressResp struct {
+	Status     int64  `json:"status"`
+	PushAdress string `json:"pushAdress"`
+	ChannleKey string `json:"channleKey"`
+}
+
 type JoinRoomReq struct {
 	Username string `json:"username"`
 	RoomId   int64  `json:"roomId"`

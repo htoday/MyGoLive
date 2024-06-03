@@ -17,6 +17,8 @@ type (
 	CloseRoomResponse  = pb.CloseRoomResponse
 	CreateRoomRequest  = pb.CreateRoomRequest
 	CreateRoomResponse = pb.CreateRoomResponse
+	GetOneRoomRequest  = pb.GetOneRoomRequest
+	GetOneRoomResponse = pb.GetOneRoomResponse
 	GetRoomRequest     = pb.GetRoomRequest
 	GetRoomResponse    = pb.GetRoomResponse
 	JoinRoomRequest    = pb.JoinRoomRequest
@@ -28,6 +30,7 @@ type (
 		JoinRoom(ctx context.Context, in *JoinRoomRequest, opts ...grpc.CallOption) (*JoinRoomResponse, error)
 		CloseRoom(ctx context.Context, in *CloseRoomRequest, opts ...grpc.CallOption) (*CloseRoomResponse, error)
 		GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error)
+		GetOneRoom(ctx context.Context, in *GetOneRoomRequest, opts ...grpc.CallOption) (*GetOneRoomResponse, error)
 	}
 
 	defaultRoomService struct {
@@ -59,4 +62,9 @@ func (m *defaultRoomService) CloseRoom(ctx context.Context, in *CloseRoomRequest
 func (m *defaultRoomService) GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error) {
 	client := pb.NewRoomServiceClient(m.cli.Conn())
 	return client.GetRoom(ctx, in, opts...)
+}
+
+func (m *defaultRoomService) GetOneRoom(ctx context.Context, in *GetOneRoomRequest, opts ...grpc.CallOption) (*GetOneRoomResponse, error) {
+	client := pb.NewRoomServiceClient(m.cli.Conn())
+	return client.GetOneRoom(ctx, in, opts...)
 }

@@ -44,10 +44,17 @@ message GetRoomResponse {
     int64 status = 1;
     repeated Room rooms = 2;
 }
-
+message GetOneRoomRequest {
+    int64 roomId = 1;
+}
+message GetOneRoomResponse {
+    int64 status = 1;
+    Room room = 2;
+}
 service RoomService {
     rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
     rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);
     rpc CloseRoom (CloseRoomRequest) returns (CloseRoomResponse);
     rpc GetRoom (GetRoomRequest) returns (GetRoomResponse);
+    rpc GetOneRoom (GetOneRoomRequest) returns (GetOneRoomResponse);
 }

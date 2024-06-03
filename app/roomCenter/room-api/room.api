@@ -42,6 +42,15 @@ type (
 		status   int64  `json:"status"`
 		roomList []Room `json:"roomList"`
 	}
+	GetRoomPushAddressReq {
+		roomId   int64  `json:"roomId"`
+		username string `json:"username"`
+	}
+	GetRoomPushAddressResp {
+		status     int64  `json:"status"`
+		pushAdress string `json:"pushAdress"`
+		channleKey string `json:"channleKey"`
+	}
 )
 
 @server (
@@ -70,5 +79,9 @@ service roomCenter {
 	@doc "getRoomList"
 	@handler getRoomList
 	post /getRoomList (GetRoomListReq) returns (GetRoomListResp)
+
+	@doc "getRoomPushAdress"
+	@handler getRoomPushAddress
+	post /getRoomPushAdress (GetRoomPushAddressReq) returns (GetRoomPushAddressResp)
 }
 
