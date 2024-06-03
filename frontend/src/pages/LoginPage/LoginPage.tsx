@@ -62,7 +62,7 @@ function Login(props:{
             localStorage.setItem("rememberUsername", username)
             localStorage.setItem("rememberPassword", password)
         }
-        const url = baseData.server.getBaseUrl() + "/api/user/login"
+        const url = baseData.server.getBaseUrl() + "/user/login"
         return await fetch(url, {
             method: "POST",
             headers: {
@@ -176,7 +176,7 @@ export function Register(props:{
             ) {
             }
         }
-        const url =baseData.server.getBaseUrl()+"/api/user/register"
+        const url =baseData.server.getBaseUrl()+"/user/register"
         return await fetch(url, {
             method: "POST",
             headers: {
