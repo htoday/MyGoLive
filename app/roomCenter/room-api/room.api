@@ -48,8 +48,8 @@ type (
 	}
 	GetRoomPushAddressResp {
 		status     int64  `json:"status"`
-		pushAdress string `json:"pushAdress"`
-		channleKey string `json:"channleKey"`
+		pushAddress string `json:"pushAddress"`
+		channelKey string `json:"channelKey"`
 	}
 )
 

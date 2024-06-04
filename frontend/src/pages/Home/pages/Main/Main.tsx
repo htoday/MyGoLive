@@ -2,9 +2,11 @@ import styles from "./Main.module.less"
 import {TopMenu} from "./components/TopMenu/TopMenu.tsx";
 import {useEffect, useState} from "react";
 import {Search} from "./components/Search/Search.tsx";
-import {GetRoomListRequest, Room} from "../../../../api/room.ts";
+import {GetRoomListRequest, JoinRoomRequest, Room} from "../../../../api/room.ts";
 import {ChannelDisplay} from "./components/ChannelDisplay/ChannelDisplay.tsx";
 import {baseData} from "../../../../data/BaseData.ts";
+import {oneRunningAsync} from "../../../../utils/Utils.ts";
+
 export function Main(props:{
     onChannelClick:(room:Room)=>void
 }){
@@ -21,7 +23,7 @@ export function Main(props:{
         new Room(10,"测试房间","测试用户",100,""),
     ]
     const handleLoadRoomList=()=>{
-        const url=baseData.server.getBaseUrl()+"/getRoomList"
+        const url=baseData.apiServer.getBaseUrl()+"/getRoomList"
         fetch(url,{
             method:"POST",
             headers:{
@@ -36,13 +38,40 @@ export function Main(props:{
             console.log(err)
         })
     }
+    const handleJoinRoomRequest=oneRunningAsync(async (room:Room)=>{
+        const url=baseData.apiServer.getBaseUrl()+"/joinRoom"
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")!
+            },
+            body: JSON.stringify(new JoinRoomRequest(localStorage.getItem("username")!,room.roomId))
+        }).then( r =>{
+            if(r.status===200){
+                return r.json()
+            }else{
+                throw new Error("加入房间失败")
+            }
+        }).then(()=>{
+            setPageIndex(1)
+            props.onChannelClick(room)
+        }).catch(err=>{
+            alert("加入房间失败:"+err.message)
+        })
+    },()=>{
+        alert("正在加入房间 请勿重复点击")
+    })
     const pages=["推荐","游戏","动漫","电影"]
 
     const [pageIndex,setPageIndex]=useState(0)
     const [pageName,setPageName]=useState(pages[0])
     const [channelList,setChannelList]=useState(roomListDefault as Room[])
     const channelListComponent=channelList.map((channel,index)=>{
-        return <ChannelDisplay onClick={()=>{props.onChannelClick(channel)}} key={index} baseInformation={channel}/>
+        return <ChannelDisplay onClick={async () => {
+            await handleJoinRoomRequest(channel)
+            props.onChannelClick(channel)
+        }} key={index} baseInformation={channel}/>
     })
 
     useEffect(() => {
