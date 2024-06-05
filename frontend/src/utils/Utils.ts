@@ -1,13 +1,13 @@
-export function oneRunningAsync(func:any, onCancel:()=>void=()=>{}){
+export function oneRunningAsync(func: Function, onCancel:()=>void=()=>{}){
     let running = false;
-    return async function () {
+    return async function (...parameters:any[]) {
         if (running) {
             onCancel();
             return;
         } else {
             running = true;
             //console.log(running)
-            await func()
+            await func(...parameters)
             running = false;
             //console.log(running)
         }

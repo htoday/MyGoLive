@@ -47,7 +47,7 @@ function Login(props:{
             localStorage.setItem("rememberUsername", username)
             localStorage.setItem("rememberPassword", password)
         }
-        const url = baseData.server.getBaseUrl() + "/user/login"
+        const url = baseData.apiServer.getBaseUrl() + "/user/login"
         return await fetch(url, {
             method: "POST",
             headers: {
@@ -146,7 +146,7 @@ export function Register(props:{
     const [passwordConfirm,setPasswordConfirm]=useState("")
     const handleRegister = oneRunningAsync(async () => {
 
-        const url =baseData.server.getBaseUrl()+"/user/register"
+        const url =baseData.apiServer.getBaseUrl()+"/user/register"
         return await fetch(url, {
             method: "POST",
             headers: {

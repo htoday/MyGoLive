@@ -61,3 +61,18 @@ export class GetRoomListResponse{
     ) {
     }
 }
+export class GetRoomPushAddressRequest{
+    constructor(
+        public roomId:number,
+        public username:string,
+    ) {
+    }
+}
+export class GetRoomPushAddressResponse{
+    constructor(
+        public pushAddress:string,
+        public status:number,
+        public channelKey:string,
+    ) {
+    }
+}

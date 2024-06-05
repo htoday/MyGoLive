@@ -3,19 +3,21 @@ import React, {useEffect, useRef} from "react";
 import flv from 'flv.js'
 export interface VideoProps{
     title:string,
-    url:string,
+    pushAddress:string,
     owner:string,
+    channelKey:string,
+
 }
 export default function Video(props:VideoProps){
     const videoRef=useRef() as React.MutableRefObject<HTMLVideoElement>;
     let flvPlayer:flv.Player|null
 
     useEffect(() => {
-        console.log(props.url)
+        console.log(props.pushAddress)
         if (flvPlayer) return
         flvPlayer = flv.createPlayer({
             type: 'flv',// 指定视频类型
-            url: props.url, // 指定流链接
+            url: props.pushAddress, // 指定流链接
             isLive: true,// 开启直播
             hasAudio: false,  // 开启/关闭 声音
             cors: true,  // 开启跨域访问
@@ -31,7 +33,7 @@ export default function Video(props:VideoProps){
         });
         flvPlayer.attachMediaElement(videoRef.current);
         flvPlayer.load();
-        flvPlayer.play();
+        //flvPlayer.play();
         return () => {
             if (flvPlayer) {
                 flvPlayer.pause();
