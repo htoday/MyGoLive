@@ -4,6 +4,7 @@ import {RememberPasswordButton} from "./components/RememberPasswordButton/Rememb
 import {baseData} from "../../data/BaseData.ts";
 import {isPhone, oneRunningAsync} from "../../utils/Utils.ts";
 import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse} from "../../api/user.ts";
+import {WebsiteRouter} from "../Router/Router.tsx";
 
 export function LoginPage() {
     const [mode,setMode]=useState(0)
@@ -77,6 +78,8 @@ function Login(props:{
             localStorage.setItem("expireTime", res.expireTime.toString())
             localStorage.setItem("refreshAfter", res.refreshAfter.toString())
             localStorage.setItem("username", username)
+            alert("登录成功")
+            WebsiteRouter.homeRef?.current.click()
         }).catch((e) => {
             alert("登录失败:" + e.message)
 
