@@ -25,7 +25,7 @@ export function Channel(props:{
     }
     const room=props.room as Room
     const handleGetPushAddress = async () => {
-        const url = baseData.apiServer.getBaseUrl() + "/getRoomPushAddress"
+        const url = baseData.roomApiServer.getBaseUrl() + "/getRoomPushAddress"
         await fetch(url, {
             method: "POST",
             headers: {

@@ -1,5 +1,21 @@
 export const baseData={
-    apiServer:{
+    userApiServer:{
+        hostname:"localhost",
+        port:8887,
+        protocol:"http",
+        getBaseUrl:function(){
+            return this.protocol+"://"+this.hostname+":"+this.port;
+        }
+    },
+    talkApiServer:{
+        hostname:"localhost",
+        port:8888,
+        protocol:"http",
+        getBaseUrl:function(){
+            return this.protocol+"://"+this.hostname+":"+this.port;
+        }
+    },
+    roomApiServer:{
         hostname:"localhost",
         port:8889,
         protocol:"http",

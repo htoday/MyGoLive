@@ -6,7 +6,6 @@ import {isPhone, oneRunningAsync} from "../../utils/Utils.ts";
 import {LoginRequest, LoginResponse, RegisterRequest, RegisterResponse} from "../../api/user.ts";
 
 export function LoginPage() {
-
     const [mode,setMode]=useState(0)
     return (
         <>
@@ -19,9 +18,7 @@ export function LoginPage() {
                     </div>
                 </div>
             </div>
-
         </>
-
     )
 }
 function Login(props:{
@@ -47,7 +44,7 @@ function Login(props:{
             localStorage.setItem("rememberUsername", username)
             localStorage.setItem("rememberPassword", password)
         }
-        const url = baseData.apiServer.getBaseUrl() + "/user/login"
+        const url = baseData.userApiServer.getBaseUrl() + "/user/login"
         return await fetch(url, {
             method: "POST",
             headers: {
@@ -72,6 +69,7 @@ function Login(props:{
             localStorage.setItem("token", res.token)
             localStorage.setItem("expireTime", res.expireTime.toString())
             localStorage.setItem("refreshAfter", res.refreshAfter.toString())
+            localStorage.setItem("username", username)
         }).catch((e) => {
             alert("登录失败:" + e.message)
 
@@ -81,7 +79,6 @@ function Login(props:{
         alert("正在登录中 请勿重复点击!")
     })
     useEffect(() => {
-
         if (localStorage.getItem("remember")) {
             //console.log(localStorage.getItem("remember"))
             const isRemember = localStorage.getItem("remember") === "true"
@@ -146,7 +143,7 @@ export function Register(props:{
     const [passwordConfirm,setPasswordConfirm]=useState("")
     const handleRegister = oneRunningAsync(async () => {
 
-        const url =baseData.apiServer.getBaseUrl()+"/user/register"
+        const url =baseData.userApiServer.getBaseUrl()+"/user/register"
         return await fetch(url, {
             method: "POST",
             headers: {
@@ -200,7 +197,6 @@ export function Register(props:{
                     setPasswordConfirm(()=>e.target.value)
                 }}
             />
-
             <a onClick={props.setMode}>返回登录界面</a>
             <button onClick={handleRegister}>注 册</button>
         </div>

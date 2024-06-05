@@ -23,7 +23,7 @@ export function Main(props:{
         new Room(10,"测试房间","测试用户",100,""),
     ]
     const handleLoadRoomList=()=>{
-        const url=baseData.apiServer.getBaseUrl()+"/getRoomList"
+        const url=baseData.userApiServer.getBaseUrl()+"/getRoomList"
         fetch(url,{
             method:"POST",
             headers:{
@@ -39,7 +39,7 @@ export function Main(props:{
         })
     }
     const handleJoinRoomRequest=oneRunningAsync(async (room:Room)=>{
-        const url=baseData.apiServer.getBaseUrl()+"/joinRoom"
+        const url=baseData.userApiServer.getBaseUrl()+"/joinRoom"
         await fetch(url, {
             method: "POST",
             headers: {

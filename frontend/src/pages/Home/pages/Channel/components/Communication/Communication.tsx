@@ -1,4 +1,3 @@
-import {useState} from "react";
 import styles from "./Communication.module.less"
 enum MessageType{
     TEXT,
@@ -16,7 +15,7 @@ export class Message{
 }
 
 export function Communication(props:{socket:WebSocket|null}){
-    const [message,setMessage]=useState([] as Message[])
+    //const [message,setMessage]=useState([] as Message[])
     if(props.socket===null){
         alert("socket异常 无法启动对话栏!")
         return <></>
@@ -24,8 +23,7 @@ export function Communication(props:{socket:WebSocket|null}){
         const onMessage=props.socket.onmessage!
         props.socket.onmessage=function(event){
             onMessage.apply(props.socket!,[event])
-            const data=JSON.parse(event.data)
-
+            //const data=JSON.parse(event.data)
         }
     }
     return(
@@ -34,7 +32,6 @@ export function Communication(props:{socket:WebSocket|null}){
                 聊天信息
             </h1>
             <div className={styles.communication_window_communication}>
-
             </div>
             <div className={styles.communication_window_input}>
                 <textarea className={styles.communication_window_input_text}></textarea>
