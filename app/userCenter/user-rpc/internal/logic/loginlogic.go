@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/golang-jwt/jwt/v4"
 	"time"
 
@@ -39,12 +40,16 @@ func (l *LoginLogic) Login(in *pb.LoginReq) (*pb.LoginResp, error) {
 		return nil, errors.New("invalid password")
 	}
 
-	token, _ := generateToken(in.Username)
+	token, err := generateToken(in.Username)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(token, "我是token2")
 	return &pb.LoginResp{
 		Status:       200,
 		Token:        token,
 		ExpireTime:   time.Now().Add(time.Hour * 24).UnixMilli(), // 你需要根据你的需求来设置这个值
-		RefreshAfter: time.Now().Add(time.Hour * 12).UnixMilli(), // 你需要根据你���需求来设置这个值
+		RefreshAfter: time.Now().Add(time.Hour * 12).UnixMilli(), // 你需要根据你需求来设置这个值
 	}, nil
 }
 
@@ -55,6 +60,12 @@ func generateToken(username string) (string, error) {
 		"sub": username,
 		"exp": time.Now().Add(time.Hour * 24).UnixMilli(),
 	})
-	secretKey := "666666"
-	return token.SignedString(secretKey)
+	secretKey := []byte("666666")
+	//fmt.Println(token, "我是token1")
+	tokenString, err := token.SignedString(secretKey)
+	if err != nil {
+		fmt.Println(tokenString)
+		fmt.Println(err)
+	}
+	return tokenString, err
 }
