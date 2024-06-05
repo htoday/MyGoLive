@@ -4,7 +4,7 @@ export const baseData={
         port:8887,
         protocol:"http",
         getBaseUrl:function(){
-            return this.protocol+"://"+this.hostname+":"+this.port;
+            return this.protocol+"://"+this.hostname+":"+this.port+"/v1";
         }
     },
     talkApiServer:{
@@ -12,7 +12,7 @@ export const baseData={
         port:8888,
         protocol:"http",
         getBaseUrl:function(){
-            return this.protocol+"://"+this.hostname+":"+this.port;
+            return this.protocol+"://"+this.hostname+":"+this.port+"/v1";
         }
     },
     roomApiServer:{
@@ -20,7 +20,7 @@ export const baseData={
         port:8889,
         protocol:"http",
         getBaseUrl:function(){
-            return this.protocol+"://"+this.hostname+":"+this.port;
+            return this.protocol+"://"+this.hostname+":"+this.port+"/v1";
         }
     },
     rpcServer:{
