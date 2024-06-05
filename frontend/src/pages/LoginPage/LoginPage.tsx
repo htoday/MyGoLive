@@ -149,7 +149,7 @@ export function Register(props:{
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(new RegisterRequest(mobile, username, password, 0))
+            body: JSON.stringify(new RegisterRequest(mobile, username, password,"0000" ))
         }).then(res => {
             if (!res.ok) throw new Error(res.status.toString())
             return new RegisterResponse(res.status)

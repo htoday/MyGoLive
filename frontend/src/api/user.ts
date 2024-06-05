@@ -3,7 +3,7 @@ export class RegisterRequest {
         public mobile: string,
         public username: string,
         public password: string,
-        public code: number,
+        public code: string,
     ) {
     }
 }
