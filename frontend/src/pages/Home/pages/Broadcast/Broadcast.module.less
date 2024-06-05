@@ -1,0 +1,80 @@
+div.content {
+    position: absolute;
+    top: 10vh;
+    left: auto;
+    right: auto;
+    height: 70vh;
+    background: white;
+    width: 60vw;
+    border-radius: 15px;
+    box-shadow: black 1px 1px 3px;
+    overflow: clip;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    min-width: 350px;
+    h1{
+        font-size: 40px;
+        font-weight: 400;
+        background: linear-gradient(90deg, #ffbae3, #ded2ff);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        width: 100%;
+        text-align: center;
+        font-family: External_Font_1,sans-serif;
+        user-select: none;
+    }
+    input{
+        width: 80%;
+        height: 8%;
+        font-size: 24px;
+        color: #414141;
+
+        &::placeholder{
+            background-image:-webkit-linear-gradient(top, gray, gray);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            font-family: External_Font_1,sans-serif;
+        }
+        background-image:-webkit-linear-gradient(top, #d0bcf4, #88fde1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        font-family: External_Font_1,sans-serif;
+        border: none;
+        font-weight: 300;
+        border-bottom: 2px solid #44c7ff;
+        outline:none;
+        transition: all 0.5s;
+        &:hover{
+            border-bottom: 2px solid #abe1ff;
+            transform: scale(1.05);
+        }
+        &:focus{
+            border-bottom: 2px solid #83fb9d;
+        }
+        margin-top: 7%;
+    }
+    button{
+        margin-top: 10%;
+        width: 30%;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        font-size: 20px;
+        transition: 0.5s all ease-in-out;
+        background-image:-webkit-linear-gradient(top, #d0bcf4, #88fde1);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        font-family: External_Font_1,sans-serif;
+        font-weight: 300;
+        &:hover{
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+
+    }
+}

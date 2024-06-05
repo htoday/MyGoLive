@@ -23,10 +23,47 @@ div.communication_window{
         top: 10%;
         left: 0;
         width: 98%;
-        height: 80%;
+        height: 70%;
         background: white;
-
         border: 2px black solid;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        justify-content: flex-start;
+        align-items: center;
+        gap:20px;
+        div.communication_window_communication_content{
+            background: #c29bcf55;
+            width: 98%;
+            height: fit-content;
+            border: 2px gray solid;
+            border-radius: 5px;
+            padding-bottom: 20px;
+            padding-top: 0;
+            h1{
+                width: 100%;
+                font-size: 12px;
+                font-weight: 600;
+                font-family: "Microsoft YaHei UI",sans-serif;
+                color: #00000055;
+                text-align: center;
+                border-bottom: 2px gray solid;
+                padding: 0 0 0 0;
+                margin: 0;
+                user-select: none;
+            }
+            p{
+                width: 100%;
+                font-size: 12px;
+                font-weight: 400;
+                font-family: "Microsoft YaHei UI",sans-serif;
+                color: #000000;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
     }
     div.communication_window_input{
         position: absolute;

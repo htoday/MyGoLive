@@ -4,6 +4,7 @@ import styles from "./Home.module.less"
 import {Channel} from "./pages/Channel/Channel.tsx";
 import {Main} from "./pages/Main/Main.tsx";
 import {Room} from "../../api/room.ts";
+import {Broadcast} from "./pages/Broadcast/Broadcast.tsx";
 export function Home() {
     const [index, setIndex] = useState(0)
     const [joinedRoom, setJoinedRoom]=useState(null as (Room|null))
@@ -16,6 +17,7 @@ export function Home() {
                         setIndex(1)
                     }}/>}
                     {index===1&&<Channel room={joinedRoom}/>}
+                    {index===3&&<Broadcast/>}
                 </div>
             </div>
             <BottomMenu
@@ -26,7 +28,7 @@ export function Home() {
                     }
                     setIndex(() => index)
                 }}
-                menuList={["主 页","频 道","我 的","设 置"]}
+                menuList={["主 页","频 道","我 的","开 播"]}
                 index={index}
             />
         </>
