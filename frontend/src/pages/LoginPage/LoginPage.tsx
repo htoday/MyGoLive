@@ -163,9 +163,9 @@ export function Register(props:{
         alert("正在注册中 请勿重复点击!")
     })
     return (
-        <div className={styles.main}>
+        <div className={styles.main} style={{paddingTop:"0"}}>
             <h1 className={styles.title}>注册</h1>
-            <input
+            <input  style={{marginTop:"0"}}
                 type={"text"}
                 placeholder={"手机号"}
                 value={mobile}

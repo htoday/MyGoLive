@@ -19,7 +19,6 @@ export function Channel(props:{
     if(props.room===null){
         alert("请先在主页选择一个房间加入!")
         return(
-
             <></>
         )
     }
