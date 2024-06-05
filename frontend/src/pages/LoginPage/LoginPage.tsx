@@ -30,9 +30,16 @@ function Login(props:{
             document.title=""
         }
     }, []);
+
     const [remember, setRemember] = useState(localStorage.getItem("remember") === "true")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    /*useEffect(() => {
+        if(localStorage.getItem("remember")==="true"){
+            localStorage.setItem("rememberUsername", username)
+            localStorage.setItem("rememberPassword", password)
+        }
+    }, [username,password]);*/
     const handleLogin = oneRunningAsync(async () => {
 
 
@@ -105,6 +112,7 @@ function Login(props:{
                 placeholder={"用户名"}
                 onChange={(e) => {
                     setUsername(() => e.target.value)
+                    localStorage.setItem("rememberUsername", e.target.value)
                 }}/>
             <input
                 type={"password"}
@@ -112,6 +120,7 @@ function Login(props:{
                 placeholder={"密码"}
                 onChange={(e)=>{
                     setPassword(() => e.target.value)
+                    localStorage.setItem("rememberPassword", e.target.value)
                 }}
             />
             <RememberPasswordButton
@@ -119,6 +128,13 @@ function Login(props:{
                     setRemember(!remember)
                     //console.log(remember.toString())
                     localStorage.setItem("remember", (!remember).toString())
+                    if(!remember) {
+                        localStorage.setItem("rememberUsername",username)
+                        localStorage.setItem("rememberPassword",password)
+                    }else {
+                        localStorage.removeItem("rememberUsername")
+                        localStorage.removeItem("rememberPassword")
+                    }
                 }}
                 state={remember}></RememberPasswordButton>
             <a onClick={props.setMode}>还没有账号?点我</a>
