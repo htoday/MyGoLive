@@ -3,10 +3,9 @@ package logic
 import (
 	"context"
 	"encoding/json"
-	"mygo/app/roomCenter/room-rpc/roomservice"
-
 	"mygo/app/roomCenter/room-rpc/internal/svc"
 	"mygo/app/roomCenter/room-rpc/pb/pb"
+	"mygo/app/roomCenter/room-rpc/roomservice"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,33 +26,36 @@ func NewGetRoomLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetRoomLo
 
 func (l *GetRoomLogic) GetRoom(in *pb.GetRoomRequest) (*pb.GetRoomResponse, error) {
 	// todo: add your logic here and delete this line
-	var cursor uint64
+
 	var rooms []*roomservice.Room
-	var roomsJSON []string
 	page := in.Page
-	pageSize := int64(10)
-	for i := int64(0); i < page; i++ {
-		var keys []string
-		var err error
+	pageSize := int64(5)
+	start := (page - 1) * pageSize
+	end := start + pageSize - 1
 
-		keys, cursor, err = l.svcCtx.RDB.Scan(cursor, "room:*", pageSize)
-		if err != nil {
-			return nil, err
-		}
-
-		if i == page-1 {
-			roomsJSON = keys
-		}
+	// 将房间的ID和创建时间添加到有序集合中
+	roomIDs, err := l.svcCtx.RDB.Zrevrange("rooms", start, end)
+	if err != nil {
+		return nil, err
 	}
-	for _, roomJSON := range roomsJSON {
-		var room roomservice.Room
-		err := json.Unmarshal([]byte(roomJSON), &room)
+
+	// Get the room data for each room ID
+	rooms = make([]*pb.Room, len(roomIDs))
+	for i, roomID := range roomIDs {
+		roomData, err := l.svcCtx.RDB.Get("room:" + roomID)
 		if err != nil {
 			return nil, err
 		}
-		rooms = append(rooms, &room)
+
+		var room pb.Room
+		err = json.Unmarshal([]byte(roomData), &room)
+		if err != nil {
+			return nil, err
+		}
+		rooms[i] = &room
 	}
 	return &pb.GetRoomResponse{
-		Rooms: rooms,
+		Status: 200,
+		Rooms:  rooms,
 	}, nil
 }

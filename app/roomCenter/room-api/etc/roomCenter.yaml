@@ -16,4 +16,5 @@ Prometheus:
 RoomRpcConf:
   Etcd:
     Hosts:
-      - 127.0.0.1:2380
+      - 127.0.0.1:2379
+    Key: room.rpc

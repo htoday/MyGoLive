@@ -28,7 +28,7 @@ type Room struct {
 	RoomId    int64  `protobuf:"varint,1,opt,name=roomId,proto3" json:"roomId,omitempty"`
 	RoomName  string `protobuf:"bytes,2,opt,name=roomName,proto3" json:"roomName,omitempty"`
 	RoomOwner string `protobuf:"bytes,3,opt,name=roomOwner,proto3" json:"roomOwner,omitempty"`
-	ViewerNum int64  `protobuf:"varint,4,opt,name=viewerNum,proto3" json:"viewerNum,omitempty"`
+	ViewerNum int64  `protobuf:"varint,4,opt,name=viewerNum,proto3" json:"viewerNum"`
 }
 
 func (x *Room) Reset() {

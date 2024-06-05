@@ -32,8 +32,8 @@ func (l *CreateRoomLogic) CreateRoom(in *pb.CreateRoomRequest) (*pb.CreateRoomRe
 	rand.Seed(time.Now().UnixNano())
 	var roomID int64
 	for {
-		roomID := rand.Intn(90000000) + 10000000
-		exists, err := l.svcCtx.RDB.Exists("room:" + strconv.Itoa(roomID))
+		roomID = int64(rand.Intn(90000000) + 10000000)
+		exists, err := l.svcCtx.RDB.Exists("room:" + strconv.FormatInt(roomID, 10))
 		if err != nil {
 			return nil, err
 		}
@@ -46,10 +46,17 @@ func (l *CreateRoomLogic) CreateRoom(in *pb.CreateRoomRequest) (*pb.CreateRoomRe
 		RoomId:    roomID,
 		RoomName:  in.RoomName,
 		RoomOwner: in.Username,
-		ViewerNum: 0,
+		ViewerNum: 0, //json编码可能会忽略0值，需要在结构体定义时删除omitempty
 	}
-	roomJSON, err := json.Marshal(room)
-	err = l.svcCtx.RDB.Set("room:"+string(roomID), string(roomJSON))
+	roomJSON, err := json.MarshalIndent(room, "", " ")
+
+	//_, err = l.svcCtx.RDB.Lpush("rooms", string(roomJSON))
+	err = l.svcCtx.RDB.Set("room:"+strconv.FormatInt(roomID, 10), string(roomJSON))
+	if err != nil {
+		return nil, err
+	}
+	// 将房间的ID和创建时间添加到有序集合中
+	_, err = l.svcCtx.RDB.Zadd("rooms", int64(time.Now().Unix()), strconv.FormatInt(roomID, 10))
 	if err != nil {
 		return &pb.CreateRoomResponse{
 			RoomId: roomID,
