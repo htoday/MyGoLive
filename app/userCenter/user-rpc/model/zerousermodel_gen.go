@@ -95,7 +95,7 @@ func (m *defaultZeroUserModel) FindOneByUsername(ctx context.Context, username s
 		if err := conn.QueryRowCtx(ctx, &resp, query, username); err != nil {
 			return nil, err
 		}
-		return resp.UserId, nil
+		return resp.Username, nil
 	}, m.queryPrimary)
 	switch err {
 	case nil:

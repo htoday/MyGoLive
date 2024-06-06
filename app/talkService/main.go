@@ -1,4 +1,5 @@
 package main
+
 import (
 	"flag"
 	"github.com/gorilla/mux"
@@ -6,7 +7,7 @@ import (
 	"net/http"
 )
 
-var addr = flag.String("addr", ":8080", "http service address")
+var addr = flag.String("addr", ":1145", "http service address")
 var house = make(map[string]*Hub)
 
 func serveHome(w http.ResponseWriter, r *http.Request) {

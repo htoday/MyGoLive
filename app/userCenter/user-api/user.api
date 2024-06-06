@@ -10,7 +10,7 @@ type (
 	LoginResp {
 		Status       int64  `json:"status"`
 		Token        string `json:"token"`
-		ExpireTime   int64  `json:"expire_time"`
+		ExpireTime   int64  `json:"expireTime"`
 		RefreshAfter int64  `json:"refreshAfter"`
 	}
 	RegisterReq {
