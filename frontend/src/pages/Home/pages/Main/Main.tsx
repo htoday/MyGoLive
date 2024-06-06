@@ -1,11 +1,10 @@
 import styles from "./Main.module.less"
-import {TopMenu} from "./components/TopMenu/TopMenu.tsx";
 import {useEffect, useState} from "react";
-import {Search} from "./components/Search/Search.tsx";
 import {GetRoomListRequest, JoinRoomRequest, Room} from "../../../../api/room.ts";
 import {ChannelDisplay} from "./components/ChannelDisplay/ChannelDisplay.tsx";
 import {baseData} from "../../../../data/BaseData.ts";
 import {oneRunningAsync} from "../../../../utils/Utils.ts";
+import {PageSelector} from "./components/PageSelector/PageSelector.tsx";
 
 export function Main(props:{
     onChannelClick:(room:Room)=>void
@@ -22,14 +21,14 @@ export function Main(props:{
         new Room(9,"测试房间","测试用户",100,""),
         new Room(10,"测试房间","测试用户",100,""),
     ]
-    const handleLoadRoomList=()=>{
+    const handleLoadRoomListRequest=()=>{
         const url=baseData.roomApiServer.getBaseUrl()+"/getRoomList"
         fetch(url,{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
-            body:JSON.stringify(new GetRoomListRequest(pageName))
+            body:JSON.stringify(new GetRoomListRequest(pageIndex))
         }).then(res=>res.json()).then(res=>{
             if(res.status===200){
                 setChannelList(res.roomList)
@@ -38,6 +37,7 @@ export function Main(props:{
             console.log(err)
         })
     }
+
     const handleJoinRoomRequest=oneRunningAsync(async (room:Room)=>{
         const url=baseData.roomApiServer.getBaseUrl()+"/joinRoom"
         await fetch(url, {
@@ -62,10 +62,9 @@ export function Main(props:{
     },()=>{
         alert("正在加入房间 请勿重复点击")
     })
-    const pages=["推荐","游戏","动漫","电影"]
-
-    const [pageIndex,setPageIndex]=useState(0)
-    const [pageName,setPageName]=useState(pages[0])
+    //const pages=["推荐","游戏","动漫","电影"]
+    const [pageIndex,setPageIndex]=useState(1)
+    //const [pageName,setPageName]=useState(pages[0])
     const [channelList,setChannelList]=useState(roomListDefault as Room[])
     const channelListComponent=channelList.map((channel,index)=>{
         return <ChannelDisplay onClick={async () => {
@@ -76,27 +75,27 @@ export function Main(props:{
 
     useEffect(() => {
         document.title="首页"
-        handleLoadRoomList()
+        handleLoadRoomListRequest()
         return ()=>{
             document.title=""
         }
     }, []);
     useEffect(() => {
-        handleLoadRoomList()
-       // console.log("page name changes")
-    }, [pageName]);
+        handleLoadRoomListRequest()
+    }, [pageIndex]);
     return (
         <div className={styles.content}>
-            <Search/>
-            <TopMenu menuList={pages}
-                     onIndexChange={(index)=>{
-                         setPageIndex(index)
-                         setPageName(pages[index])
-                     }}
-                     index={pageIndex}/>
+            {/*false && <Search/>*/}
+            {/*false&&<TopMenu menuList={pages}
+                      onIndexChange={(index) => {
+                          setPageIndex(index)
+                          setPageName(pages[index])
+                      }}
+                      index={pageIndex}/>*/}
             <div className={styles.row}>
                 {channelListComponent}
             </div>
+            <PageSelector pageIndex={pageIndex} onNextClick={()=>{}} onPreviousClick={()=>{}}/>
         </div>
     )
 }
