@@ -8,7 +8,6 @@ import {
     GetRoomPushAddressRequest,
     GetRoomPushAddressResponse
 } from "../../../../api/room.ts";
-
 export function Broadcast() {
     const [roomName, setRoomName] = useState("")
     const [broadcastUrl, setBroadcastUrl] = useState("")
