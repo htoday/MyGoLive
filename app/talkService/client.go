@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -42,6 +44,8 @@ type Client struct {
 
 	// Buffered channel of outbound messages.
 	send chan []byte
+
+	username string
 }
 
 // readPump pumps messages from the websocket connection to the hub.
@@ -66,7 +70,19 @@ func (c *Client) readPump() {
 			break
 		}
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		c.hub.broadcast <- message
+		var msgJSON Message
+		err = json.Unmarshal(message, &msgJSON)
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+		fmt.Println(msgJSON)
+		fmt.Println(msgJSON.Content)
+		if msgJSON.MsgType == 1 {
+
+			message = []byte(c.username + ": " + msgJSON.Content)
+			c.hub.broadcast <- message
+		}
+
 	}
 }
 
@@ -123,13 +139,15 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
+	username := "测试人员"
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), username: username}
 	client.hub.register <- client
-	helloMessage := []byte("ABC " + "进入了房间")
+
+	helloMessage := []byte(username + " 进入了房间")
 	client.hub.broadcast <- helloMessage
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.
-	go client.writePump()
-	go client.readPump()
+	go client.writePump() //从hub读，再写到ws客户端
+	go client.readPump()  //从ws读，再广播到hub
 
 }
