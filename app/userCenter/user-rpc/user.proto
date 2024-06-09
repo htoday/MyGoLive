@@ -32,8 +32,35 @@ message GetCodeReq{
 message GetCodeResp{
   int64 status = 2;
 }
+message GetUserInfoReq{
+  string username=1;
+}
+message GetUserInfoResp{
+  int64 status=200;
+  string username=1;
+  string mobile=2;
+  int64  money=3;
+  int64  userId=4;
+}
+message  ChargeReq{
+  string username=1;
+  int64 num=2;
+}
+message ChargeResp{
+  int64 status=200;
+}
+message SpendReq{
+  string username=1;
+  int64 num=2;
+}
+message SpendResp{
+  int64 status=200;
+}
 service UserService{
   rpc Register (RegisterReq) returns (RegisterResp);
   rpc Login (LoginReq) returns (LoginResp);
   rpc GetCode(GetCodeReq) returns (GetCodeResp);
+  rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoResp);
+  rpc Charge(ChargeReq) returns (ChargeResp);
+  rpc Spend(SpendReq) returns (SpendResp);
 }

@@ -19,9 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_Register_FullMethodName = "/pb.UserService/Register"
-	UserService_Login_FullMethodName    = "/pb.UserService/Login"
-	UserService_GetCode_FullMethodName  = "/pb.UserService/GetCode"
+	UserService_Register_FullMethodName    = "/pb.UserService/Register"
+	UserService_Login_FullMethodName       = "/pb.UserService/Login"
+	UserService_GetCode_FullMethodName     = "/pb.UserService/GetCode"
+	UserService_GetUserInfo_FullMethodName = "/pb.UserService/GetUserInfo"
+	UserService_Charge_FullMethodName      = "/pb.UserService/Charge"
+	UserService_Spend_FullMethodName       = "/pb.UserService/Spend"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -31,6 +34,9 @@ type UserServiceClient interface {
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	GetCode(ctx context.Context, in *GetCodeReq, opts ...grpc.CallOption) (*GetCodeResp, error)
+	GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+	Charge(ctx context.Context, in *ChargeReq, opts ...grpc.CallOption) (*ChargeResp, error)
+	Spend(ctx context.Context, in *SpendReq, opts ...grpc.CallOption) (*SpendResp, error)
 }
 
 type userServiceClient struct {
@@ -68,6 +74,33 @@ func (c *userServiceClient) GetCode(ctx context.Context, in *GetCodeReq, opts ..
 	return out, nil
 }
 
+func (c *userServiceClient) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
+	out := new(GetUserInfoResp)
+	err := c.cc.Invoke(ctx, UserService_GetUserInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) Charge(ctx context.Context, in *ChargeReq, opts ...grpc.CallOption) (*ChargeResp, error) {
+	out := new(ChargeResp)
+	err := c.cc.Invoke(ctx, UserService_Charge_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) Spend(ctx context.Context, in *SpendReq, opts ...grpc.CallOption) (*SpendResp, error) {
+	out := new(SpendResp)
+	err := c.cc.Invoke(ctx, UserService_Spend_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -75,6 +108,9 @@ type UserServiceServer interface {
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 	GetCode(context.Context, *GetCodeReq) (*GetCodeResp, error)
+	GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error)
+	Charge(context.Context, *ChargeReq) (*ChargeResp, error)
+	Spend(context.Context, *SpendReq) (*SpendResp, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -90,6 +126,15 @@ func (UnimplementedUserServiceServer) Login(context.Context, *LoginReq) (*LoginR
 }
 func (UnimplementedUserServiceServer) GetCode(context.Context, *GetCodeReq) (*GetCodeResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCode not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserInfo(context.Context, *GetUserInfoReq) (*GetUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUserServiceServer) Charge(context.Context, *ChargeReq) (*ChargeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Charge not implemented")
+}
+func (UnimplementedUserServiceServer) Spend(context.Context, *SpendReq) (*SpendResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Spend not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -158,6 +203,60 @@ func _UserService_GetCode_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserInfo(ctx, req.(*GetUserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_Charge_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChargeReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).Charge(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_Charge_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).Charge(ctx, req.(*ChargeReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_Spend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SpendReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).Spend(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_Spend_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).Spend(ctx, req.(*SpendReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +275,18 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCode",
 			Handler:    _UserService_GetCode_Handler,
+		},
+		{
+			MethodName: "GetUserInfo",
+			Handler:    _UserService_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "Charge",
+			Handler:    _UserService_Charge_Handler,
+		},
+		{
+			MethodName: "Spend",
+			Handler:    _UserService_Spend_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

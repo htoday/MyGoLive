@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"mygo/app/roomCenter/room-rpc/pb/pb"
 	"net/http"
 	"strconv"
 
@@ -30,28 +29,17 @@ func NewGetRoomPushAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *GetRoomPushAddressLogic) GetRoomPushAddress(req *types.GetRoomPushAddressReq) (resp *types.GetRoomPushAddressResp, err error) {
-	roomResp, err := l.svcCtx.RoomRpcClient.GetOneRoom(l.ctx, &pb.GetOneRoomRequest{
-		RoomId: req.RoomId,
-	})
-	if err != nil {
-		resp.Status = 400
-		return resp, err
-	}
-	if req.Username != roomResp.Room.RoomOwner {
-		resp.Status = 400
-		return resp, nil
-	}
 
 	addr := "http://localhost:8090/control/get?room=" + strconv.FormatInt(req.RoomId, 10)
 	respJSON, err := http.Get(addr)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 	defer respJSON.Body.Close()
 
 	body, err := ioutil.ReadAll(respJSON.Body)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	var response Response

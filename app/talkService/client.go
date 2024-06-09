@@ -78,9 +78,7 @@ func (c *Client) readPump() {
 		fmt.Println(msgJSON)
 		fmt.Println(msgJSON.Content)
 		if msgJSON.MsgType == 1 {
-
-			message = []byte(c.username + ": " + msgJSON.Content)
-			c.hub.broadcast <- message
+			c.hub.broadcast <- msgJSON
 		}
 
 	}
@@ -143,7 +141,11 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), username: username}
 	client.hub.register <- client
 
-	helloMessage := []byte(username + " 进入了房间")
+	helloMessage := Message{
+		Name:    username,
+		MsgType: 1,
+		Content: " 进入了房间",
+	}
 	client.hub.broadcast <- helloMessage
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.

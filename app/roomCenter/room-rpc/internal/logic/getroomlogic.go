@@ -2,7 +2,9 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"mygo/app/roomCenter/room-rpc/internal/svc"
@@ -32,10 +34,15 @@ func (l *GetRoomLogic) GetRoom(in *pb.GetRoomRequest) (*pb.GetRoomResponse, erro
 
 	var rooms []*pb.Room
 	for _, resp := range *resps {
+		roomKey := fmt.Sprintf("room:%d", resp.RoomId)
+		roomData, _ := l.svcCtx.RDB.Get(roomKey)
+		var r RDBRoom
+		err = json.Unmarshal([]byte(roomData), &r)
 		rooms = append(rooms, &pb.Room{
 			RoomId:    resp.RoomId,
 			RoomName:  resp.RoomName.String,
 			RoomOwner: resp.RoomOwner.String,
+			ViewerNum: r.viewNum,
 		})
 
 	}

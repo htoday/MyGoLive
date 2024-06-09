@@ -28,6 +28,23 @@ type (
 	SendMessageResp {
 		Status int64 `json:"status"`
 	}
+	GetUserInfoReq {
+		Username int64 `json:"username"`
+	}
+	GetUserInfoResp {
+		Status   int64  `json:"status"`
+		UserId   int64  `json:"userId"`
+		Username string `json:"username"`
+		Mobile   string `json:"mobile"`
+		Money    int64  `json:"money"`
+	}
+	ChargeReq {
+		UserName int64 `json:"username"`
+		Num      int64 `json:"num"`
+	}
+	ChargeResp {
+		Status int64 `json:"status"`
+	}
 )
 
 @server (
@@ -49,5 +66,13 @@ service usercenter {
 	@doc "sendMessage"
 	@handler sendMessage
 	post /user/register/sendMessage (SendMessageReq) returns (SendMessageResp)
+
+	@doc "getUserInfo"
+	@handler getUserInfo
+	post /user/getUserInfo (GetUserInfoReq) returns (GetUserInfoResp)
+
+	@doc "charge"
+	@handler charge
+	post /user/charge (ChargeReq) returns (ChargeResp)
 }
 

@@ -47,9 +47,16 @@ type (
 		username string `json:"username"`
 	}
 	GetRoomPushAddressResp {
-		status     int64  `json:"status"`
+		status      int64  `json:"status"`
 		pushAddress string `json:"pushAddress"`
-		channelKey string `json:"channelKey"`
+		channelKey  string `json:"channelKey"`
+	}
+	GetViewNumReq {
+		roomId int64 `json:"roomId"`
+	}
+	GetViewNumResp {
+		status    int64 `json:"status"`
+		viewerNum int64 `json:"viewerNum"`
 	}
 )
 
@@ -83,5 +90,9 @@ service roomCenter {
 	@doc "getRoomPushAdress"
 	@handler getRoomPushAddress
 	post /getRoomPushAdress (GetRoomPushAddressReq) returns (GetRoomPushAddressResp)
+
+	@doc "getViewNum"
+	@handler getViewNum
+	post /getViewNum (GetViewNumReq) returns (GetViewNumResp)
 }
 
