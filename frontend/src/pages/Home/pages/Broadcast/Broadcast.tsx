@@ -29,7 +29,7 @@ export function Broadcast() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                     "Authorization": "Bearer " + localStorage.getItem("token")
+                     "Authorization": localStorage.getItem("token")!
                 },
                 body: JSON.stringify(new GetRoomPushAddressRequest(0, localStorage.getItem("username")!))
             }).then((res) => {
@@ -60,11 +60,13 @@ export function Broadcast() {
             {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("token")!
                 },
                 body: JSON.stringify(new CreateRoomRequest(localStorage.getItem("username")!, roomName))
             }
         ).then((res) => {
+            console.log(res.body)
             return res.json() as Promise<CreateRoomResponse>
         }).then((data) => {
             if (data.status === 200) {
