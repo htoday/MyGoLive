@@ -50,7 +50,7 @@ export class CloseRoomResponse{
 }
 export class GetRoomListRequest{
     constructor(
-        public page:string,
+        public page:number,
     ) {
     }
 }
