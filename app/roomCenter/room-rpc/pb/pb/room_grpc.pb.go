@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RoomService_CreateRoom_FullMethodName = "/pb.RoomService/CreateRoom"
-	RoomService_JoinRoom_FullMethodName   = "/pb.RoomService/JoinRoom"
-	RoomService_CloseRoom_FullMethodName  = "/pb.RoomService/CloseRoom"
-	RoomService_GetRoom_FullMethodName    = "/pb.RoomService/GetRoom"
-	RoomService_GetOneRoom_FullMethodName = "/pb.RoomService/GetOneRoom"
+	RoomService_CreateRoom_FullMethodName        = "/pb.RoomService/CreateRoom"
+	RoomService_JoinRoom_FullMethodName          = "/pb.RoomService/JoinRoom"
+	RoomService_CloseRoom_FullMethodName         = "/pb.RoomService/CloseRoom"
+	RoomService_GetRoom_FullMethodName           = "/pb.RoomService/GetRoom"
+	RoomService_GetOneRoomViewNum_FullMethodName = "/pb.RoomService/GetOneRoomViewNum"
 )
 
 // RoomServiceClient is the client API for RoomService service.
@@ -34,7 +34,7 @@ type RoomServiceClient interface {
 	JoinRoom(ctx context.Context, in *JoinRoomRequest, opts ...grpc.CallOption) (*JoinRoomResponse, error)
 	CloseRoom(ctx context.Context, in *CloseRoomRequest, opts ...grpc.CallOption) (*CloseRoomResponse, error)
 	GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error)
-	GetOneRoom(ctx context.Context, in *GetOneRoomRequest, opts ...grpc.CallOption) (*GetOneRoomResponse, error)
+	GetOneRoomViewNum(ctx context.Context, in *GetOneRoomViewNumRequest, opts ...grpc.CallOption) (*GetOneRoomViewNumResponse, error)
 }
 
 type roomServiceClient struct {
@@ -81,9 +81,9 @@ func (c *roomServiceClient) GetRoom(ctx context.Context, in *GetRoomRequest, opt
 	return out, nil
 }
 
-func (c *roomServiceClient) GetOneRoom(ctx context.Context, in *GetOneRoomRequest, opts ...grpc.CallOption) (*GetOneRoomResponse, error) {
-	out := new(GetOneRoomResponse)
-	err := c.cc.Invoke(ctx, RoomService_GetOneRoom_FullMethodName, in, out, opts...)
+func (c *roomServiceClient) GetOneRoomViewNum(ctx context.Context, in *GetOneRoomViewNumRequest, opts ...grpc.CallOption) (*GetOneRoomViewNumResponse, error) {
+	out := new(GetOneRoomViewNumResponse)
+	err := c.cc.Invoke(ctx, RoomService_GetOneRoomViewNum_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +98,7 @@ type RoomServiceServer interface {
 	JoinRoom(context.Context, *JoinRoomRequest) (*JoinRoomResponse, error)
 	CloseRoom(context.Context, *CloseRoomRequest) (*CloseRoomResponse, error)
 	GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error)
-	GetOneRoom(context.Context, *GetOneRoomRequest) (*GetOneRoomResponse, error)
+	GetOneRoomViewNum(context.Context, *GetOneRoomViewNumRequest) (*GetOneRoomViewNumResponse, error)
 	mustEmbedUnimplementedRoomServiceServer()
 }
 
@@ -118,8 +118,8 @@ func (UnimplementedRoomServiceServer) CloseRoom(context.Context, *CloseRoomReque
 func (UnimplementedRoomServiceServer) GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRoom not implemented")
 }
-func (UnimplementedRoomServiceServer) GetOneRoom(context.Context, *GetOneRoomRequest) (*GetOneRoomResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOneRoom not implemented")
+func (UnimplementedRoomServiceServer) GetOneRoomViewNum(context.Context, *GetOneRoomViewNumRequest) (*GetOneRoomViewNumResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOneRoomViewNum not implemented")
 }
 func (UnimplementedRoomServiceServer) mustEmbedUnimplementedRoomServiceServer() {}
 
@@ -206,20 +206,20 @@ func _RoomService_GetRoom_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RoomService_GetOneRoom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOneRoomRequest)
+func _RoomService_GetOneRoomViewNum_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOneRoomViewNumRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RoomServiceServer).GetOneRoom(ctx, in)
+		return srv.(RoomServiceServer).GetOneRoomViewNum(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RoomService_GetOneRoom_FullMethodName,
+		FullMethod: RoomService_GetOneRoomViewNum_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RoomServiceServer).GetOneRoom(ctx, req.(*GetOneRoomRequest))
+		return srv.(RoomServiceServer).GetOneRoomViewNum(ctx, req.(*GetOneRoomViewNumRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -248,8 +248,8 @@ var RoomService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RoomService_GetRoom_Handler,
 		},
 		{
-			MethodName: "GetOneRoom",
-			Handler:    _RoomService_GetOneRoom_Handler,
+			MethodName: "GetOneRoomViewNum",
+			Handler:    _RoomService_GetOneRoomViewNum_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

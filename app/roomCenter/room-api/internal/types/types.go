@@ -35,9 +35,18 @@ type GetRoomPushAddressReq struct {
 }
 
 type GetRoomPushAddressResp struct {
-	Status     int64  `json:"status"`
-	PushAdress string `json:"pushAdress"`
-	ChannleKey string `json:"channleKey"`
+	Status      int64  `json:"status"`
+	PushAddress string `json:"pushAddress"`
+	ChannelKey  string `json:"channelKey"`
+}
+
+type GetViewNumReq struct {
+	RoomId int64 `json:"roomId"`
+}
+
+type GetViewNumResp struct {
+	Status    int64 `json:"status"`
+	ViewerNum int64 `json:"viewerNum"`
 }
 
 type JoinRoomReq struct {

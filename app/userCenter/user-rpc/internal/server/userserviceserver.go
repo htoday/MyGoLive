@@ -36,3 +36,18 @@ func (s *UserServiceServer) GetCode(ctx context.Context, in *pb.GetCodeReq) (*pb
 	l := logic.NewGetCodeLogic(ctx, s.svcCtx)
 	return l.GetCode(in)
 }
+
+func (s *UserServiceServer) GetUserInfo(ctx context.Context, in *pb.GetUserInfoReq) (*pb.GetUserInfoResp, error) {
+	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
+	return l.GetUserInfo(in)
+}
+
+func (s *UserServiceServer) Charge(ctx context.Context, in *pb.ChargeReq) (*pb.ChargeResp, error) {
+	l := logic.NewChargeLogic(ctx, s.svcCtx)
+	return l.Charge(in)
+}
+
+func (s *UserServiceServer) Spend(ctx context.Context, in *pb.SpendReq) (*pb.SpendResp, error) {
+	l := logic.NewSpendLogic(ctx, s.svcCtx)
+	return l.Spend(in)
+}

@@ -42,7 +42,7 @@ func (s *RoomServiceServer) GetRoom(ctx context.Context, in *pb.GetRoomRequest) 
 	return l.GetRoom(in)
 }
 
-func (s *RoomServiceServer) GetOneRoom(ctx context.Context, in *pb.GetOneRoomRequest) (*pb.GetOneRoomResponse, error) {
-	l := logic.NewGetOneRoomLogic(ctx, s.svcCtx)
-	return l.GetOneRoom(in)
+func (s *RoomServiceServer) GetOneRoomViewNum(ctx context.Context, in *pb.GetOneRoomViewNumRequest) (*pb.GetOneRoomViewNumResponse, error) {
+	l := logic.NewGetOneRoomViewNumLogic(ctx, s.svcCtx)
+	return l.GetOneRoomViewNum(in)
 }

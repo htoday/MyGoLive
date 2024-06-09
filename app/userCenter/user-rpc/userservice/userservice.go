@@ -13,17 +13,26 @@ import (
 )
 
 type (
-	GetCodeReq   = pb.GetCodeReq
-	GetCodeResp  = pb.GetCodeResp
-	LoginReq     = pb.LoginReq
-	LoginResp    = pb.LoginResp
-	RegisterReq  = pb.RegisterReq
-	RegisterResp = pb.RegisterResp
+	ChargeReq       = pb.ChargeReq
+	ChargeResp      = pb.ChargeResp
+	GetCodeReq      = pb.GetCodeReq
+	GetCodeResp     = pb.GetCodeResp
+	GetUserInfoReq  = pb.GetUserInfoReq
+	GetUserInfoResp = pb.GetUserInfoResp
+	LoginReq        = pb.LoginReq
+	LoginResp       = pb.LoginResp
+	RegisterReq     = pb.RegisterReq
+	RegisterResp    = pb.RegisterResp
+	SpendReq        = pb.SpendReq
+	SpendResp       = pb.SpendResp
 
 	UserService interface {
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 		GetCode(ctx context.Context, in *GetCodeReq, opts ...grpc.CallOption) (*GetCodeResp, error)
+		GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error)
+		Charge(ctx context.Context, in *ChargeReq, opts ...grpc.CallOption) (*ChargeResp, error)
+		Spend(ctx context.Context, in *SpendReq, opts ...grpc.CallOption) (*SpendResp, error)
 	}
 
 	defaultUserService struct {
@@ -50,4 +59,19 @@ func (m *defaultUserService) Login(ctx context.Context, in *LoginReq, opts ...gr
 func (m *defaultUserService) GetCode(ctx context.Context, in *GetCodeReq, opts ...grpc.CallOption) (*GetCodeResp, error) {
 	client := pb.NewUserServiceClient(m.cli.Conn())
 	return client.GetCode(ctx, in, opts...)
+}
+
+func (m *defaultUserService) GetUserInfo(ctx context.Context, in *GetUserInfoReq, opts ...grpc.CallOption) (*GetUserInfoResp, error) {
+	client := pb.NewUserServiceClient(m.cli.Conn())
+	return client.GetUserInfo(ctx, in, opts...)
+}
+
+func (m *defaultUserService) Charge(ctx context.Context, in *ChargeReq, opts ...grpc.CallOption) (*ChargeResp, error) {
+	client := pb.NewUserServiceClient(m.cli.Conn())
+	return client.Charge(ctx, in, opts...)
+}
+
+func (m *defaultUserService) Spend(ctx context.Context, in *SpendReq, opts ...grpc.CallOption) (*SpendResp, error) {
+	client := pb.NewUserServiceClient(m.cli.Conn())
+	return client.Spend(ctx, in, opts...)
 }

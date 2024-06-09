@@ -17,3 +17,7 @@ RedisConf:
   Host: localhost:6379
   Type: node
   Pass: ""
+
+CacheConf:
+  - Host: 127.0.0.1:6379
+    Pass:
