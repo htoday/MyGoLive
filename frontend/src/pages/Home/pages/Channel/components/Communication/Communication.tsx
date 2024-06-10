@@ -1,56 +1,27 @@
 import styles from "./Communication.module.less"
+import {Message, MessageType} from "../../../../../../api/communication.ts";
 import {useState} from "react";
-enum MessageType{
-    TEXT,
-    GIFT,
-    IMAGE,
-    SYSTEM
-}
-export class Message{
-    constructor(
-        public type:MessageType,
-        public content:string,
-        public sender:string,
-    ) {
-    }
-}
-const defaultMessage=[
-    new Message(MessageType.TEXT,"你好啊","系2统"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-]
-export function Communication(props:{socket:WebSocket|null}){
-    const [message,setMessage]=useState(defaultMessage as Message[])
-    if(props.socket===null){
-        alert("socket异常 无法启动对话栏!")
-        return <></>
-    }else{
-        const onMessage=props.socket.onmessage!
-        props.socket.onmessage=function(event){
-            onMessage.apply(props.socket!,[event])
-            const data=JSON.parse(event.data)
-            switch (data.type){
-                case MessageType.TEXT: {
-                    setMessage([...message, new Message(MessageType.TEXT, data.content, data.sender)])
-                    break;
-                }
-                default:{
-                    setMessage([...message, new Message(MessageType.TEXT, "未知类型消息", data.sender)])
-                    break;
-                }
-            }
-        }
-    }
-    const messageList=message.map((msg,index)=>{
+
+
+export function Communication(props:{messages:Message[],websocket:WebSocket|null}){
+
+    const messageList=props.messages.map((msg,index)=>{
         return (<div key={index} className={styles.communication_window_communication_content}>
-            <h1>{msg.sender}</h1>
+            <h1>{msg.name}</h1>
             <p>{msg.content}</p>
 
         </div>)
     })
+    const [inputContent,setInputContent]=useState("")
+    const handleSendMessage=()=>{
+        if(props.websocket){
+            const message=new Message(MessageType.TEXT,inputContent,localStorage.getItem("username")!)
+            props.websocket.send(JSON.stringify(message))
+            setInputContent("")
+        }else{
+            alert("websocket 未加载 请刷新网页重试!")
+        }
+    }
     return(
         <div className={styles.communication_window}>
             <h1 className={styles.title}>
@@ -60,9 +31,14 @@ export function Communication(props:{socket:WebSocket|null}){
                 {messageList}
             </div>
             <div className={styles.communication_window_input}>
-                <textarea className={styles.communication_window_input_text}>
+                <textarea
+                    className={styles.communication_window_input_text}
+                    onChange={(e)=>{
+                        setInputContent(()=>e.target.value)
+                    }}
+                    value={inputContent}>
                 </textarea>
-                <button className={styles.communication_window_input_button}>发送</button>
+                <button className={styles.communication_window_input_button} onClick={handleSendMessage}>发送</button>
             </div>
         </div>
     )

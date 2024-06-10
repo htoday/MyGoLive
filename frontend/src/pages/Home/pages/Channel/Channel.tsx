@@ -1,21 +1,52 @@
 import {useEffect, useState} from "react";
 import Video from "./components/Video/Video.tsx";
-import {Gift, GiftLayer} from "./components/GiftLayer/GiftLayer.tsx";
+import { GiftLayer} from "./components/GiftLayer/GiftLayer.tsx";
 import {Communication} from "./components/Communication/Communication.tsx";
 import {Room} from "../../../../api/room.ts";
 import {baseData} from "../../../../data/BaseData.ts";
-
+import {Message, MessageType} from "../../../../api/communication.ts";
+import {getGiftByName, Gift} from "../../../../api/gift.ts";
+const defaultMessage=[
+    new Message(MessageType.TEXT,"你好啊","系2统"),
+    new Message(MessageType.TEXT,"AAA","我"),
+    new Message(MessageType.TEXT,"AAA","我"),
+    new Message(MessageType.TEXT,"AAA","我"),
+    new Message(MessageType.TEXT,"AAA","我"),
+    new Message(MessageType.TEXT,"AAA","我"),
+]
 export function Channel(props:{
     room:Room|null
 }){
     const [gifts,setGifts]=useState([] as Gift[])
-    //const [pushAddress, setPushAddress] = useState("" as string)
-    //const [channelKey, setChannelKey] = useState("" as string)
-    let webSocket: WebSocket | null = new WebSocket(`ws://${document.location.host}/ws/${props.room!.roomId}`)
-    webSocket.onopen = function () {
-        console.log("webSocket打开成功")
+    const [message,setMessage]=useState(defaultMessage)
+    let webSocket: WebSocket | null=null
+    const initializeWebSocket=()=>{
+        const url=baseData.webSocketServer.getBaseUrl()+"/ws/"+room.roomId
+        webSocket = new WebSocket(url)
+        webSocket.onopen = function () {
+            console.log("webSocket打开成功")
+        }
+
+        webSocket.onmessage = function (event) {
+            const data=JSON.parse(event.data) as Message
+            switch (data.msgType){
+                case MessageType.TEXT.valueOf():{
+                    setMessage((pre)=>[...pre,data])
+                    break
+                }
+                case MessageType.GIFT.valueOf():{
+
+                    const gift=new Gift(data.name,room.roomOwner,getGiftByName(data.content)!,"")
+                    setGifts((pre)=>[...pre,gift])
+
+                    break
+                }
+                default:{
+                    //TODO 未知类型的MessageType
+                }
+            }
+        }
     }
-    let count=1
     if(props.room===null){
         alert("请先在主页选择一个房间加入!")
         return(
@@ -23,29 +54,9 @@ export function Channel(props:{
         )
     }
     const room=props.room as Room
-    /*const handleGetPushAddress = async () => {
-        const url = baseData.roomApiServer.getBaseUrl() + "/getRoomPushAddress"
-        await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(new GetRoomPushAddressRequest(room.roomId, localStorage.getItem("username") ?? ""))
-        }).then(res => (res.json() as Promise<GetRoomPushAddressResponse>)).then(data => {
-            setChannelKey(data.channelKey)
-            setPushAddress(data.pushAddress)
-        }).catch(() => {
-            handleGetPushAddress()
-        })
-    }*/
     useEffect(() => {
         document.title="频道"
-
-        setInterval(()=>{
-            //console.log("gift")
-            //setGifts(()=>[new Gift("sender","receiver",GiftId.COMMON, "普通礼物"+count)])
-            count++
-        },1000)
+        initializeWebSocket()
         return ()=>{
             document.title=""
         }
@@ -54,7 +65,7 @@ export function Channel(props:{
     console.log(broadcastUrl)
     return (
         <>
-            <Communication socket={webSocket}/>
+            <Communication messages={message} websocket={webSocket}/>
             <GiftLayer gifts={gifts} clearGifts={()=>{
                 setGifts([])
             }}></GiftLayer>
@@ -67,5 +78,4 @@ export function Channel(props:{
             }
         </>
     )
-    //http://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-480p.flv
 }

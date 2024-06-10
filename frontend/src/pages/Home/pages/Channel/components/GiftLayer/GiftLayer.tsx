@@ -1,18 +1,8 @@
 import styles from "./GiftLayer.module.less"
 import React, {useEffect} from "react";
+import {Gift, GiftType} from "../../../../../../api/gift.ts";
 
-export enum GiftId{
-    COMMON
-}
-export class Gift{
-    constructor(
-        public source:string,
-        public target:string,
-        public id:GiftId,
-        public message:string,
-    ){
-    }
-}
+
 // @ts-ignore
 export function GiftLayer(props:{
     gifts:Gift[],
@@ -37,21 +27,20 @@ export function GiftLayer(props:{
     )
 }
 function onGiftFunction(layer:React.RefObject<HTMLDivElement>,gift:Gift){
-    switch (gift.id){
-        case GiftId.COMMON:{
+    switch (gift.giftType){
+        case GiftType.FLOWER:{
             let newDiv=document.createElement("p")
             newDiv.style.position="absolute"
             let yPosition=Math.random()*100
             newDiv.style.top=yPosition+"%"
             newDiv.style.left="0%"
-            newDiv.innerHTML=`用户 ${gift.source} 向主播 ${gift.target} 送出了一份普通礼物 并说 ${gift.message}`
+            newDiv.innerHTML=`用户 ${gift.source} 向主播 ${gift.target} 送出了一份鲜花`
             newDiv.className=styles.text
             layer.current?.appendChild(newDiv)
             let startLocation=0
             let moveTime=1000
             let speed=10
             let count=0
-
             const move=()=>{
                 if(count>moveTime){
                     newDiv.remove()
