@@ -3,6 +3,7 @@ import Video from "./components/Video/Video.tsx";
 import {Gift, GiftLayer} from "./components/GiftLayer/GiftLayer.tsx";
 import {Communication} from "./components/Communication/Communication.tsx";
 import {Room} from "../../../../api/room.ts";
+import {baseData} from "../../../../data/BaseData.ts";
 
 export function Channel(props:{
     room:Room|null
@@ -49,6 +50,8 @@ export function Channel(props:{
             document.title=""
         }
     }, []);
+    const broadcastUrl=baseData.broadcastServer.getBaseUrl()+"/"+props.room.roomId+".flv"
+    console.log(broadcastUrl)
     return (
         <>
             <Communication socket={webSocket}/>
@@ -57,7 +60,7 @@ export function Channel(props:{
             }}></GiftLayer>
             {<Video
                 title={room.roomName}
-                url={""}
+                url={broadcastUrl}
                 owner={room.roomOwner}
                 />
 

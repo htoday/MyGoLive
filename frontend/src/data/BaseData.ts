@@ -31,4 +31,13 @@ export const baseData={
             return this.protocol+"://"+this.hostname+":"+this.port;
         }
     },
+    broadcastServer:{
+        hostname:"localhost",
+        port:7001,
+        protocol:"http",
+        getBaseUrl:function(){
+            return this.protocol+"://"+this.hostname+":"+this.port+"/live";
+        }
+
+    }
 }

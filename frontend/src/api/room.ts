@@ -38,7 +38,6 @@ export class JoinRoomResponse{
 export class CloseRoomRequest{
     constructor(
         public username:string,
-        public roomId:number,
     ) {
     }
 }

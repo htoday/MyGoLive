@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {oneRunningAsync} from "../../../../utils/Utils.ts";
 import {baseData} from "../../../../data/BaseData.ts";
 import {
+    CloseRoomRequest,
     CreateRoomRequest,
     CreateRoomResponse,
     GetRoomPushAddressRequest,
@@ -64,6 +65,35 @@ export function Broadcast() {
             //handleGetRoomStateRequest()
         })
     }
+    const handleCloseBroadcast = oneRunningAsync(async () => {
+        const url = baseData.roomApiServer.getBaseUrl() + "/closeRoom"
+        fetch(url,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")!
+            },
+            body: JSON.stringify(new CloseRoomRequest(localStorage.getItem("username")!))
+        }).then(res=>{
+            if(res.status === 200){
+                return res.json() as Promise<CreateRoomResponse>
+            }else{
+                throw new Error("关闭房间失败")
+            }
+        }).then((data)=>{
+            if(data.status!==200){
+                throw new Error("关闭房间失败")
+            }else{
+                alert("关闭房间成功!")
+            }
+            handleGetRoomStateRequest()
+        }).catch((e)=>{
+            alert("关闭房间失败:" + e.message)
+        })
+
+    }, () => {
+        alert("请勿重复点击此按钮")
+    })
     const handleOpenBroadcast = oneRunningAsync(async () => {
         const url = baseData.roomApiServer.getBaseUrl() + "/createRoom"
         return await fetch(url,
@@ -116,7 +146,7 @@ export function Broadcast() {
                 editClipboard(channelKey)}}>
                 {channelKey === "" ? "开启房间后 即可获取直播间推流码" : "推流码:" + channelKey + "(点击复制到剪贴板)"}
             </p>
-            <button onClick={handleOpenBroadcast}>{broadcasting ? "关闭直播间" : "开启直播间"}</button>
+            <button onClick={broadcasting?handleCloseBroadcast:handleOpenBroadcast}>{broadcasting ? "关闭直播间" : "开启直播间"}</button>
         </div>
     )
 }
