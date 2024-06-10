@@ -46,3 +46,8 @@ func (s *RoomServiceServer) GetOneRoomViewNum(ctx context.Context, in *pb.GetOne
 	l := logic.NewGetOneRoomViewNumLogic(ctx, s.svcCtx)
 	return l.GetOneRoomViewNum(in)
 }
+
+func (s *RoomServiceServer) FindRoomByOwnerName(ctx context.Context, in *pb.FindRoomByOwnerNameReq) (*pb.FindRoomByOwnerNameResponse, error) {
+	l := logic.NewFindRoomByOwnerNameLogic(ctx, s.svcCtx)
+	return l.FindRoomByOwnerName(in)
+}

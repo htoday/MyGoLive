@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RoomService_CreateRoom_FullMethodName        = "/pb.RoomService/CreateRoom"
-	RoomService_JoinRoom_FullMethodName          = "/pb.RoomService/JoinRoom"
-	RoomService_CloseRoom_FullMethodName         = "/pb.RoomService/CloseRoom"
-	RoomService_GetRoom_FullMethodName           = "/pb.RoomService/GetRoom"
-	RoomService_GetOneRoomViewNum_FullMethodName = "/pb.RoomService/GetOneRoomViewNum"
+	RoomService_CreateRoom_FullMethodName          = "/pb.RoomService/CreateRoom"
+	RoomService_JoinRoom_FullMethodName            = "/pb.RoomService/JoinRoom"
+	RoomService_CloseRoom_FullMethodName           = "/pb.RoomService/CloseRoom"
+	RoomService_GetRoom_FullMethodName             = "/pb.RoomService/GetRoom"
+	RoomService_GetOneRoomViewNum_FullMethodName   = "/pb.RoomService/GetOneRoomViewNum"
+	RoomService_FindRoomByOwnerName_FullMethodName = "/pb.RoomService/FindRoomByOwnerName"
 )
 
 // RoomServiceClient is the client API for RoomService service.
@@ -35,6 +36,7 @@ type RoomServiceClient interface {
 	CloseRoom(ctx context.Context, in *CloseRoomRequest, opts ...grpc.CallOption) (*CloseRoomResponse, error)
 	GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error)
 	GetOneRoomViewNum(ctx context.Context, in *GetOneRoomViewNumRequest, opts ...grpc.CallOption) (*GetOneRoomViewNumResponse, error)
+	FindRoomByOwnerName(ctx context.Context, in *FindRoomByOwnerNameReq, opts ...grpc.CallOption) (*FindRoomByOwnerNameResponse, error)
 }
 
 type roomServiceClient struct {
@@ -90,6 +92,15 @@ func (c *roomServiceClient) GetOneRoomViewNum(ctx context.Context, in *GetOneRoo
 	return out, nil
 }
 
+func (c *roomServiceClient) FindRoomByOwnerName(ctx context.Context, in *FindRoomByOwnerNameReq, opts ...grpc.CallOption) (*FindRoomByOwnerNameResponse, error) {
+	out := new(FindRoomByOwnerNameResponse)
+	err := c.cc.Invoke(ctx, RoomService_FindRoomByOwnerName_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RoomServiceServer is the server API for RoomService service.
 // All implementations must embed UnimplementedRoomServiceServer
 // for forward compatibility
@@ -99,6 +110,7 @@ type RoomServiceServer interface {
 	CloseRoom(context.Context, *CloseRoomRequest) (*CloseRoomResponse, error)
 	GetRoom(context.Context, *GetRoomRequest) (*GetRoomResponse, error)
 	GetOneRoomViewNum(context.Context, *GetOneRoomViewNumRequest) (*GetOneRoomViewNumResponse, error)
+	FindRoomByOwnerName(context.Context, *FindRoomByOwnerNameReq) (*FindRoomByOwnerNameResponse, error)
 	mustEmbedUnimplementedRoomServiceServer()
 }
 
@@ -120,6 +132,9 @@ func (UnimplementedRoomServiceServer) GetRoom(context.Context, *GetRoomRequest) 
 }
 func (UnimplementedRoomServiceServer) GetOneRoomViewNum(context.Context, *GetOneRoomViewNumRequest) (*GetOneRoomViewNumResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneRoomViewNum not implemented")
+}
+func (UnimplementedRoomServiceServer) FindRoomByOwnerName(context.Context, *FindRoomByOwnerNameReq) (*FindRoomByOwnerNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindRoomByOwnerName not implemented")
 }
 func (UnimplementedRoomServiceServer) mustEmbedUnimplementedRoomServiceServer() {}
 
@@ -224,6 +239,24 @@ func _RoomService_GetOneRoomViewNum_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RoomService_FindRoomByOwnerName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindRoomByOwnerNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoomServiceServer).FindRoomByOwnerName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoomService_FindRoomByOwnerName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoomServiceServer).FindRoomByOwnerName(ctx, req.(*FindRoomByOwnerNameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RoomService_ServiceDesc is the grpc.ServiceDesc for RoomService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +283,10 @@ var RoomService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOneRoomViewNum",
 			Handler:    _RoomService_GetOneRoomViewNum_Handler,
+		},
+		{
+			MethodName: "FindRoomByOwnerName",
+			Handler:    _RoomService_FindRoomByOwnerName_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

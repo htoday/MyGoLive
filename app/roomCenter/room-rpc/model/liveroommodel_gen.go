@@ -31,6 +31,7 @@ type (
 		Update(ctx context.Context, data *LiveRoom) error
 		Delete(ctx context.Context, roomId int64) error
 		Query(ctx context.Context, page int64, pageSize int64) (*[]LiveRoom, error)
+		QueryRoomByUsername(ctx context.Context, username string) (*LiveRoom, error)
 	}
 
 	defaultLiveRoomModel struct {
@@ -51,6 +52,20 @@ func newLiveRoomModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option
 	return &defaultLiveRoomModel{
 		CachedConn: sqlc.NewConn(conn, c, opts...),
 		table:      "`liveRoom`",
+	}
+}
+
+func (m *defaultLiveRoomModel) QueryRoomByUsername(ctx context.Context, username string) (*LiveRoom, error) {
+	var resp LiveRoom
+	query := fmt.Sprintf("SELECT %s FROM %s WHERE `roomOwner` = ? LIMIT 1", liveRoomRows, m.table)
+	err := m.QueryRowsNoCacheCtx(ctx, &resp, query, username)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
 	}
 }
 

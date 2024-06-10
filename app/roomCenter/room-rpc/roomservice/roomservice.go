@@ -13,17 +13,19 @@ import (
 )
 
 type (
-	CloseRoomRequest          = pb.CloseRoomRequest
-	CloseRoomResponse         = pb.CloseRoomResponse
-	CreateRoomRequest         = pb.CreateRoomRequest
-	CreateRoomResponse        = pb.CreateRoomResponse
-	GetOneRoomViewNumRequest  = pb.GetOneRoomViewNumRequest
-	GetOneRoomViewNumResponse = pb.GetOneRoomViewNumResponse
-	GetRoomRequest            = pb.GetRoomRequest
-	GetRoomResponse           = pb.GetRoomResponse
-	JoinRoomRequest           = pb.JoinRoomRequest
-	JoinRoomResponse          = pb.JoinRoomResponse
-	Room                      = pb.Room
+	CloseRoomRequest            = pb.CloseRoomRequest
+	CloseRoomResponse           = pb.CloseRoomResponse
+	CreateRoomRequest           = pb.CreateRoomRequest
+	CreateRoomResponse          = pb.CreateRoomResponse
+	FindRoomByOwnerNameReq      = pb.FindRoomByOwnerNameReq
+	FindRoomByOwnerNameResponse = pb.FindRoomByOwnerNameResponse
+	GetOneRoomViewNumRequest    = pb.GetOneRoomViewNumRequest
+	GetOneRoomViewNumResponse   = pb.GetOneRoomViewNumResponse
+	GetRoomRequest              = pb.GetRoomRequest
+	GetRoomResponse             = pb.GetRoomResponse
+	JoinRoomRequest             = pb.JoinRoomRequest
+	JoinRoomResponse            = pb.JoinRoomResponse
+	Room                        = pb.Room
 
 	RoomService interface {
 		CreateRoom(ctx context.Context, in *CreateRoomRequest, opts ...grpc.CallOption) (*CreateRoomResponse, error)
@@ -31,6 +33,7 @@ type (
 		CloseRoom(ctx context.Context, in *CloseRoomRequest, opts ...grpc.CallOption) (*CloseRoomResponse, error)
 		GetRoom(ctx context.Context, in *GetRoomRequest, opts ...grpc.CallOption) (*GetRoomResponse, error)
 		GetOneRoomViewNum(ctx context.Context, in *GetOneRoomViewNumRequest, opts ...grpc.CallOption) (*GetOneRoomViewNumResponse, error)
+		FindRoomByOwnerName(ctx context.Context, in *FindRoomByOwnerNameReq, opts ...grpc.CallOption) (*FindRoomByOwnerNameResponse, error)
 	}
 
 	defaultRoomService struct {
@@ -67,4 +70,9 @@ func (m *defaultRoomService) GetRoom(ctx context.Context, in *GetRoomRequest, op
 func (m *defaultRoomService) GetOneRoomViewNum(ctx context.Context, in *GetOneRoomViewNumRequest, opts ...grpc.CallOption) (*GetOneRoomViewNumResponse, error) {
 	client := pb.NewRoomServiceClient(m.cli.Conn())
 	return client.GetOneRoomViewNum(ctx, in, opts...)
+}
+
+func (m *defaultRoomService) FindRoomByOwnerName(ctx context.Context, in *FindRoomByOwnerNameReq, opts ...grpc.CallOption) (*FindRoomByOwnerNameResponse, error) {
+	client := pb.NewRoomServiceClient(m.cli.Conn())
+	return client.FindRoomByOwnerName(ctx, in, opts...)
 }

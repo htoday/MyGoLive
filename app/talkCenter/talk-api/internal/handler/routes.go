@@ -19,9 +19,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: talk.ServeHomeHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodPost,
+				Path:    "/creatRoom",
+				Handler: talk.CreatRoomHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/gift",
+				Handler: talk.GiftHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/ws/:room",
-				Handler: talk.WsHandler(serverCtx),
+				Handler: talk.TalkWSHandler(serverCtx),
 			},
 		},
 	)

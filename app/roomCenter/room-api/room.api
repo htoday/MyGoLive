@@ -43,13 +43,14 @@ type (
 		roomList []Room `json:"roomList"`
 	}
 	GetRoomPushAddressReq {
-		roomId   int64  `json:"roomId"`
 		username string `json:"username"`
 	}
 	GetRoomPushAddressResp {
 		status      int64  `json:"status"`
 		pushAddress string `json:"pushAddress"`
 		channelKey  string `json:"channelKey"`
+		roomId      int64  `json:"roomId"`
+		roomName    string `json:"roomName"`
 	}
 	GetViewNumReq {
 		roomId int64 `json:"roomId"`
@@ -68,9 +69,9 @@ type (
 //jwt: Auth
 )
 service roomCenter {
-	@doc "creatRoom"
-	@handler creatRoom
-	post /creatRoom (CreatRoomReq) returns (CreatRoomResp)
+	@doc "createRoom"
+	@handler createRoom
+	post /createRoom (CreatRoomReq) returns (CreatRoomResp)
 
 	@doc "joinRoom"
 	@handler joinRoom
@@ -87,9 +88,9 @@ service roomCenter {
 	@handler getRoomList
 	post /getRoomList (GetRoomListReq) returns (GetRoomListResp)
 
-	@doc "getRoomPushAdress"
+	@doc "getRoomPushAddress"
 	@handler getRoomPushAddress
-	post /getRoomPushAdress (GetRoomPushAddressReq) returns (GetRoomPushAddressResp)
+	post /getRoomPushAddress (GetRoomPushAddressReq) returns (GetRoomPushAddressResp)
 
 	@doc "getViewNum"
 	@handler getViewNum

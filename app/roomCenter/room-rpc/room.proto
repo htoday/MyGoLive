@@ -51,10 +51,20 @@ message GetOneRoomViewNumResponse {
     int64 status = 1;
     int64 viewerNum = 2;
 }
+message FindRoomByOwnerNameReq{
+    string username = 1;
+}
+message FindRoomByOwnerNameResponse{
+    int64 status = 1;
+    int64 roomId = 2;
+    string roomName = 3;
+}
+
 service RoomService {
     rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
     rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);
     rpc CloseRoom (CloseRoomRequest) returns (CloseRoomResponse);
     rpc GetRoom (GetRoomRequest) returns (GetRoomResponse);
     rpc GetOneRoomViewNum (GetOneRoomViewNumRequest) returns (GetOneRoomViewNumResponse);
+    rpc FindRoomByOwnerName(FindRoomByOwnerNameReq) returns (FindRoomByOwnerNameResponse);
 }

@@ -8,7 +8,7 @@ import (
 )
 
 var addr = flag.String("addr", ":1145", "http service address")
-var house = make(map[string]*Hub)
+var House = make(map[string]*Hub)
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL)
@@ -29,13 +29,13 @@ func main() {
 	r.HandleFunc("/ws/{room}", func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		roomId := vars["room"]
-		room, ok := house[roomId]
+		room, ok := House[roomId]
 		var hub *Hub
 		if ok {
 			hub = room
 		} else {
 			hub = NewHub()
-			house[roomId] = hub
+			House[roomId] = hub
 			go hub.run()
 		}
 		serveWs(hub, w, r)

@@ -20,8 +20,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/creatRoom",
-				Handler: room.CreatRoomHandler(serverCtx),
+				Path:    "/createRoom",
+				Handler: room.CreateRoomHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
@@ -30,7 +30,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/getRoomPushAdress",
+				Path:    "/getRoomPushAddress",
 				Handler: room.GetRoomPushAddressHandler(serverCtx),
 			},
 			{

@@ -8,10 +8,10 @@ Telemetry:
   Sampler: 1.0
   Batcher: jaeger
 
-Prometheus:
-  Host: 0.0.0.0
-  Port: 4008
-  Path: /metrics
+#Prometheus:
+#  Host: 0.0.0.0
+#  Port: 4008
+#  Path: /metrics
 
 RoomRpcConf:
   Etcd:

@@ -61,6 +61,7 @@ func (l *CreateRoomLogic) CreateRoom(in *pb.CreateRoomRequest) (*pb.CreateRoomRe
 		ImgName:   sql.NullString{String: "default.jpg", Valid: true},
 	}
 	l.svcCtx.DB.Insert(l.ctx, &room)
+
 	return &pb.CreateRoomResponse{
 		RoomId: roomID,
 		Status: 200,

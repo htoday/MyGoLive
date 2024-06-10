@@ -10,13 +10,13 @@ import (
 
 var House = make(map[string]*Hub)
 
-func WsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func TalkWSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		vars := make(map[string]string)
 		httpx.ParsePath(r, &vars)
 		roomId := vars["room"]
-		room, ok := House[roomId]
+		room, ok := hub.House[roomId]
 		var hub *Hub
 		if ok {
 			hub = room
@@ -38,7 +38,7 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
 	client.hub.register <- client
 	helloMessage := []byte("ABC " + "进入了房间")
-	client.hub.broadcast <- helloMessage
+	client.hub.Broadcast <- helloMessage
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.
 	go client.writePump()

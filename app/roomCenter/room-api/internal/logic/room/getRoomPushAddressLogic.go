@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"mygo/app/roomCenter/room-rpc/roomservice"
 	"net/http"
 	"strconv"
 
@@ -29,8 +30,15 @@ func NewGetRoomPushAddressLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *GetRoomPushAddressLogic) GetRoomPushAddress(req *types.GetRoomPushAddressReq) (resp *types.GetRoomPushAddressResp, err error) {
-
-	addr := "http://localhost:8090/control/get?room=" + strconv.FormatInt(req.RoomId, 10)
+	CheckRoomResp, err := l.svcCtx.RoomRpcClient.FindRoomByOwnerName(l.ctx, &roomservice.FindRoomByOwnerNameReq{
+		Username: req.Username,
+	})
+	if CheckRoomResp.Status != 200 {
+		return &types.GetRoomPushAddressResp{
+			Status: 200,
+		}, nil
+	}
+	addr := "http://localhost:8090/control/get?room=" + strconv.FormatInt(CheckRoomResp.RoomId, 10)
 	respJSON, err := http.Get(addr)
 	if err != nil {
 		log.Println(err)
@@ -47,9 +55,11 @@ func (l *GetRoomPushAddressLogic) GetRoomPushAddress(req *types.GetRoomPushAddre
 	if err != nil {
 		resp.Status = 400
 	} else {
+		resp.PushAddress = "rtmp://localhost:1935/live/"
+		resp.ChannelKey = response.Data
 		resp.Status = 200
-		resp.PushAdress = "rtmp://localhost:1935/live"
-		resp.ChannleKey = response.Data
+		resp.RoomId = CheckRoomResp.RoomId
+		resp.RoomName = CheckRoomResp.RoomName
 	}
 
 	log.Println(response.Data)

@@ -3,10 +3,8 @@ package talk
 import (
 	"context"
 
-	"mygo/app/talkCenter/talk-api/internal/svc"
-	"mygo/app/talkCenter/talk-api/internal/types"
-
 	"github.com/zeromicro/go-zero/core/logx"
+	"mygo/app/talkCenter/talk-api/internal/svc"
 )
 
 type TalkWSLogic struct {
@@ -23,7 +21,7 @@ func NewTalkWSLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TalkWSLogi
 	}
 }
 
-func (l *TalkWSLogic) TalkWS(req *types.TalkWSReq) error {
+func (l *TalkWSLogic) TalkWS() error {
 	// todo: add your logic here and delete this line
 
 	return nil

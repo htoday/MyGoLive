@@ -1,14 +1,24 @@
 syntax = "v1"
 
 type (
-	TalkWSReq {
-		username string `json:"username"`
+	SendGiftReq {
+		RoomId   int64  `json:"roomId"`
+		Name     string `json:"name"`
+		GiftType string `json:"giftType"`
+		Price    int64  `json:"price"`
+	}
+	SendGiftResp {
+		status int64 `json:"status"`
+	}
+	CreatRoomReq {
+		RoomId int64 `json:"roomId"`
+	}
+	CreatRoomResp {
+		status int64 `json:"status"`
 	}
 )
 
 @server (
-	prefix: /v1
-	//我是路由前缀
 	group: talk
 //我是服务分组(会放在一个文件夹下)
 //jwt: Auth
@@ -16,11 +26,19 @@ type (
 service talkCenter {
 	@doc "talkWS"
 	@handler TalkWS
-	post /ws/room (TalkWSReq)
+	get /ws/:room
 
 	//我是创建房间
 	@doc "serveHome"
 	@handler ServeHome
-	get /room
+	get /:room
+
+	@doc "gift"
+	@handler giftHandler
+	post /gift (SendGiftReq) returns (SendGiftResp)
+
+	@doc "creatRoom"
+	@handler creatRoomHandler
+	post /creatRoom (CreatRoomReq) returns (CreatRoomResp)
 }
 
