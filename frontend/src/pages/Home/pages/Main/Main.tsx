@@ -15,12 +15,8 @@ export function Main(props:{
         new Room(3,"测试房间","测试用户",100,""),
         new Room(4,"测试房间","测试用户",100,""),
         new Room(5,"测试房间","测试用户",100,""),
-        new Room(6,"测试房间","测试用户",100,""),
-        new Room(7,"测试房间","测试用户",100,""),
-        new Room(8,"测试房间","测试用户",100,""),
-        new Room(9,"测试房间","测试用户",100,""),
-        new Room(10,"测试房间","测试用户",100,""),
-    ]
+
+    ]as Room[]
     const handleLoadRoomListRequest=()=>{
         const url=baseData.roomApiServer.getBaseUrl()+"/getRoomList"
         fetch(url,{

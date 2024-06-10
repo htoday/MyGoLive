@@ -136,7 +136,7 @@ export function Broadcast() {
                     return
                 }
                 editClipboard(broadcastUrl)}}>
-                {!broadcasting ? "开启房间后 即可获取直播间推流地址" : "推流地址:" + broadcastUrl + "(点击复制到剪贴板)"}
+                {!broadcasting ? "开启房间后 即可获取直播间推流地址" :"(点击复制到剪贴板)"+ "推流地址:" + broadcastUrl }
             </p>
             <p onClick={async () => {
                 if(!broadcasting) {
@@ -144,7 +144,7 @@ export function Broadcast() {
                     return
                 }
                 editClipboard(channelKey)}}>
-                {!broadcasting ? "开启房间后 即可获取直播间推流码" : "推流码:" + channelKey + "(点击复制到剪贴板)"}
+                {!broadcasting ? "开启房间后 即可获取直播间推流码" :"(点击复制到剪贴板)"+ "推流码:" + channelKey  }
             </p>
             <button onClick={broadcasting?handleCloseBroadcast:handleOpenBroadcast}>{broadcasting ? "关闭直播间" : "开启直播间"}</button>
         </div>
