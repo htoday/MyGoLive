@@ -12,7 +12,8 @@ export function Broadcast() {
     const [roomName, setRoomName] = useState("")
     const [broadcastUrl, setBroadcastUrl] = useState("")
     const [channelKey, setChannelKey] = useState("")
-    const isBroadcasting = broadcastUrl !== "" && channelKey !== ""
+    const [broadcasting,setBroadcasting] = useState(false)
+
     const editClipboard = (text: string) => {
         navigator.clipboard.writeText(text)
             .then(() => {
@@ -31,7 +32,7 @@ export function Broadcast() {
                     "Content-Type": "application/json",
                      "Authorization": localStorage.getItem("token")!
                 },
-                body: JSON.stringify(new GetRoomPushAddressRequest(0, localStorage.getItem("username")!))
+                body: JSON.stringify(new GetRoomPushAddressRequest(localStorage.getItem("username")!))
             }).then((res) => {
                 if(res.status !== 200){
                     alert("获取房间状态失败:" + res.status)
@@ -41,8 +42,17 @@ export function Broadcast() {
         }).then(
             (data) => {
                 if (data!.status === 200) {
-                    setBroadcastUrl(data!.pushAddress)
-                    setChannelKey(data!.channelKey)
+                    if(data!.roomId!==-1){
+                        setBroadcasting(true)
+                        setBroadcastUrl(data!.pushAddress)
+                        setChannelKey(data!.channelKey)
+                        setRoomName(data!.roomName)
+                    }else{
+                        setBroadcasting(false)
+                        setBroadcastUrl("")
+                        setChannelKey("")
+                    }
+
                 } else {
                     //alert("获取房间状态失败")
                     alert("获取房间状态失败 请刷新网页重试!")
@@ -74,6 +84,7 @@ export function Broadcast() {
             } else {
                 alert("开播失败")
             }
+            handleGetRoomStateRequest()
         }).catch((e) => {
             alert("开播失败!:" + e.message)
         })
@@ -86,11 +97,11 @@ export function Broadcast() {
     return (
         <div className={styles.content}>
             <h1>我要开播</h1>
-            <input value={roomName} disabled={isBroadcasting} onChange={(e) => {
+            <input value={roomName} disabled={broadcasting} onChange={(e) => {
                 setRoomName(() => e.target.value)
             }} placeholder={"直播间名称"}/>
             <p onClick={async () => {
-                if(!isBroadcasting) {
+                if(!broadcasting) {
                     alert("请先开播 再进行复制")
                     return
                 }
@@ -98,14 +109,14 @@ export function Broadcast() {
                 {channelKey === "" ? "开启房间后 即可获取直播间推流地址" : "推流地址:" + channelKey + "(点击复制到剪贴板)"}
             </p>
             <p onClick={async () => {
-                if(!isBroadcasting) {
+                if(!broadcasting) {
                     alert("请先开播 再进行复制")
                     return
                 }
                 editClipboard(channelKey)}}>
                 {channelKey === "" ? "开启房间后 即可获取直播间推流码" : "推流码:" + channelKey + "(点击复制到剪贴板)"}
             </p>
-            <button onClick={handleOpenBroadcast}>{isBroadcasting ? "关闭直播间" : "开启直播间"}</button>
+            <button onClick={handleOpenBroadcast}>{broadcasting ? "关闭直播间" : "开启直播间"}</button>
         </div>
     )
 }
