@@ -14,6 +14,9 @@ export const baseData={
         getBaseUrl:function(){
             return this.protocol+"://"+this.hostname+":"+this.port+"/v1";
         },
+        getGiftUrl:function (){
+            return this.protocol+"://"+this.hostname+":"+this.port;
+        }
 
     },
     roomApiServer:{

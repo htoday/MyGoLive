@@ -13,7 +13,7 @@ export function GiftItem(props:{
 }){
     const handleSendGift=oneRunningAsync(
         async ()=>{
-            const url=baseData.talkApiServer.getBaseUrl()+"/gift"
+            const url=baseData.talkApiServer.getGiftUrl()+"/gift"
             //确定是否发送礼物
             if(!confirm(`确定要花费${props.giftPrice}元发送${props.giftName}吗?`)){
                 return

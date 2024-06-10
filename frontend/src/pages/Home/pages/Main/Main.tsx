@@ -10,11 +10,6 @@ export function Main(props:{
     onChannelClick:(room:Room)=>void
 }){
     const roomListDefault=[
-        new Room(1,"测试房间","测试用户",100,""),
-        new Room(2,"测试房间","测试用户",100,""),
-        new Room(3,"测试房间","测试用户",100,""),
-        new Room(4,"测试房间","测试用户",100,""),
-        new Room(5,"测试房间","测试用户",100,""),
 
     ]as Room[]
     const handleLoadRoomListRequest=()=>{
