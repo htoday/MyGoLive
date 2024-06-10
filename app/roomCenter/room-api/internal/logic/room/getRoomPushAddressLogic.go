@@ -3,6 +3,7 @@ package room
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"mygo/app/roomCenter/room-rpc/roomservice"
@@ -36,6 +37,7 @@ func (l *GetRoomPushAddressLogic) GetRoomPushAddress(req *types.GetRoomPushAddre
 	if CheckRoomResp.Status != 200 {
 		return &types.GetRoomPushAddressResp{
 			Status: 200,
+			RoomId: -1,
 		}, nil
 	}
 	addr := "http://localhost:8090/control/get?room=" + strconv.FormatInt(CheckRoomResp.RoomId, 10)
@@ -49,24 +51,19 @@ func (l *GetRoomPushAddressLogic) GetRoomPushAddress(req *types.GetRoomPushAddre
 	if err != nil {
 		log.Println(err)
 	}
-
+	fmt.Println(string(body))
 	var response Response
 	err = json.Unmarshal(body, &response)
-	if err != nil {
-		resp.Status = 400
-	} else {
-		resp.PushAddress = "rtmp://localhost:1935/live/"
-		resp.ChannelKey = response.Data
-		resp.Status = 200
-		resp.RoomId = CheckRoomResp.RoomId
-		resp.RoomName = CheckRoomResp.RoomName
-	}
-
-	log.Println(response.Data)
-
-	return resp, nil
+	return &types.GetRoomPushAddressResp{
+		Status:      200,
+		PushAddress: "rtmp://localhost:1935/live/",
+		ChannelKey:  response.Data,
+		RoomId:      CheckRoomResp.RoomId,
+		RoomName:    CheckRoomResp.RoomName,
+	}, nil
 }
 
 type Response struct {
-	Data string `json:"data"`
+	Status int    `json:"status"`
+	Data   string `json:"data"`
 }

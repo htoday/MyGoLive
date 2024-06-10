@@ -2,13 +2,12 @@ package talk
 
 import (
 	"log"
+	model "mygo/app/talkCenter/talk-api/talk"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"mygo/app/talkCenter/talk-api/internal/svc"
 )
-
-var House = make(map[string]*Hub)
 
 func TalkWSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -16,32 +15,32 @@ func TalkWSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		vars := make(map[string]string)
 		httpx.ParsePath(r, &vars)
 		roomId := vars["room"]
-		room, ok := hub.House[roomId]
-		var hub *Hub
+		room, ok := model.House[roomId]
+		var hub *model.Hub
 		if ok {
 			hub = room
 		} else {
-			hub = NewHub()
-			House[roomId] = hub
-			go hub.run()
+			hub = model.NewHub()
+			model.House[roomId] = hub
+			go hub.Run()
 		}
 
 		serveWs(hub, w, r)
 	}
 }
-func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
+func serveWs(hub *model.Hub, w http.ResponseWriter, r *http.Request) {
+	conn, err := model.Upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
-	client.hub.register <- client
+	client := &model.Client{Hub: hub, Conn: conn, Send: make(chan []byte, 256)}
+	client.Hub.Register <- client
 	helloMessage := []byte("ABC " + "进入了房间")
-	client.hub.Broadcast <- helloMessage
+	client.Hub.Broadcast <- helloMessage
 	// Allow collection of memory referenced by the caller by doing all work in
 	// new goroutines.
-	go client.writePump()
-	go client.readPump()
+	go client.WritePump()
+	go client.ReadPump()
 
 }

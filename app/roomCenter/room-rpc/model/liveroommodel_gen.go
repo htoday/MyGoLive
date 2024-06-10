@@ -58,7 +58,7 @@ func newLiveRoomModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option
 func (m *defaultLiveRoomModel) QueryRoomByUsername(ctx context.Context, username string) (*LiveRoom, error) {
 	var resp LiveRoom
 	query := fmt.Sprintf("SELECT %s FROM %s WHERE `roomOwner` = ? LIMIT 1", liveRoomRows, m.table)
-	err := m.QueryRowsNoCacheCtx(ctx, &resp, query, username)
+	err := m.QueryRowNoCacheCtx(ctx, &resp, query, username)
 	switch err {
 	case nil:
 		return &resp, nil
