@@ -11,7 +11,7 @@ export function GiftLayer(props:{
     const layerRef=React.createRef() as React.RefObject<HTMLDivElement>;
     const onGift:(layer:React.RefObject<HTMLDivElement>,gift:Gift)=>void=onGiftFunction
     useEffect(() => {
-        //console.log(...props.gifts)
+        console.log(...props.gifts)
         for(let i=0;i<props.gifts.length;i++){
             onGift(layerRef,props.gifts[i])
         }

@@ -31,7 +31,7 @@ export function Channel(props:{
                 case MessageType.GIFT.valueOf():{
 
                     const gift=new Gift(data.name,room.roomOwner,getGiftByName(data.content)!,"")
-                    setGifts((pre)=>[...pre,gift])
+                    setGifts(()=>[gift])
 
                     break
                 }

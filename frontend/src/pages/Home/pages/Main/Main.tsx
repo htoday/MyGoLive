@@ -10,7 +10,7 @@ export function Main(props:{
     onChannelClick:(room:Room)=>void
 }){
     const roomListDefault=[
-
+         new Room(1,"test","test",1,""),
     ]as Room[]
     const handleLoadRoomListRequest=()=>{
         const url=baseData.roomApiServer.getBaseUrl()+"/getRoomList"
