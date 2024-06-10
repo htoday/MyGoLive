@@ -2,15 +2,14 @@ import {useEffect, useState} from "react";
 import Video from "./components/Video/Video.tsx";
 import {Gift, GiftLayer} from "./components/GiftLayer/GiftLayer.tsx";
 import {Communication} from "./components/Communication/Communication.tsx";
-import {GetRoomPushAddressRequest, GetRoomPushAddressResponse, Room} from "../../../../api/room.ts";
-import {baseData} from "../../../../data/BaseData.ts";
+import {Room} from "../../../../api/room.ts";
 
 export function Channel(props:{
     room:Room|null
 }){
     const [gifts,setGifts]=useState([] as Gift[])
-    const [pushAddress, setPushAddress] = useState("" as string)
-    const [channelKey, setChannelKey] = useState("" as string)
+    //const [pushAddress, setPushAddress] = useState("" as string)
+    //const [channelKey, setChannelKey] = useState("" as string)
     let webSocket: WebSocket | null = new WebSocket(`ws://${document.location.host}/ws/${props.room!.roomId}`)
     webSocket.onopen = function () {
         console.log("webSocket打开成功")
@@ -23,7 +22,7 @@ export function Channel(props:{
         )
     }
     const room=props.room as Room
-    const handleGetPushAddress = async () => {
+    /*const handleGetPushAddress = async () => {
         const url = baseData.roomApiServer.getBaseUrl() + "/getRoomPushAddress"
         await fetch(url, {
             method: "POST",
@@ -37,7 +36,7 @@ export function Channel(props:{
         }).catch(() => {
             handleGetPushAddress()
         })
-    }
+    }*/
     useEffect(() => {
         document.title="频道"
 
@@ -58,9 +57,9 @@ export function Channel(props:{
             }}></GiftLayer>
             {<Video
                 title={room.roomName}
-                pushAddress={pushAddress}
+                url={""}
                 owner={room.roomOwner}
-                channelKey={channelKey}/>
+                />
 
             }
         </>
