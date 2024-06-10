@@ -13,7 +13,8 @@ export const baseData={
         protocol:"http",
         getBaseUrl:function(){
             return this.protocol+"://"+this.hostname+":"+this.port+"/v1";
-        }
+        },
+
     },
     roomApiServer:{
         hostname:"localhost",
@@ -38,6 +39,13 @@ export const baseData={
         getBaseUrl:function(){
             return this.protocol+"://"+this.hostname+":"+this.port+"/live";
         }
-
+    },
+    webSocketServer:{
+        hostname:"localhost",
+        port:8890,
+        protocol:"ws",
+        getBaseUrl:function(){
+            return this.protocol+"://"+this.hostname+":"+this.port;
+        }
     }
 }
