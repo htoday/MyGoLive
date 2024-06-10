@@ -32,7 +32,11 @@ export function Main(props:{
             body:JSON.stringify(new GetRoomListRequest(pageIndex))
         }).then(res=>res.json()).then(res=>{
             if(res.status===200){
-                setChannelList(res.roomList)
+                if(res.roomList!==null) {
+                    setChannelList(res.roomList)
+                }else{
+                    setChannelList([])
+                }
             }
         }).catch(err=>{
             console.log(err)
