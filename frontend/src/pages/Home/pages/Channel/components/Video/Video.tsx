@@ -30,7 +30,7 @@ export default function Video(props:VideoProps){
         });
         flvPlayer.attachMediaElement(videoRef.current);
         flvPlayer.load();
-        //flvPlayer.play();
+        flvPlayer.play();
         return () => {
             if (flvPlayer) {
                 flvPlayer.pause();
