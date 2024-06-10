@@ -6,6 +6,7 @@ type (
 		roomName  string `json:"roomName"`
 		roomOwner string `json:"roomOwner"`
 		viewerNum int64  `json:"viewerNum"`
+		displayImage    string `json:"displayImage"`
 	}
 	CreatRoomReq {
 		username string `json:"username"`

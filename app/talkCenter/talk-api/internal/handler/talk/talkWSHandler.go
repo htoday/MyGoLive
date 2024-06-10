@@ -1,6 +1,7 @@
 package talk
 
 import (
+	"fmt"
 	"log"
 	model "mygo/app/talkCenter/talk-api/talk"
 	"net/http"
@@ -9,12 +10,17 @@ import (
 	"mygo/app/talkCenter/talk-api/internal/svc"
 )
 
+type Request struct {
+	Room string `path:"room"`
+}
+
 func TalkWSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		vars := make(map[string]string)
-		httpx.ParsePath(r, &vars)
-		roomId := vars["room"]
+		var req Request
+		httpx.Parse(r, &req)
+		roomId := req.Room
+		fmt.Println(roomId)
 		room, ok := model.House[roomId]
 		var hub *model.Hub
 		if ok {

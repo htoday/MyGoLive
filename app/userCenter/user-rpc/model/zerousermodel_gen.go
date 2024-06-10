@@ -88,15 +88,9 @@ func (m *defaultZeroUserModel) FindOne(ctx context.Context, userId int64) (*Zero
 }
 
 func (m *defaultZeroUserModel) FindOneByUsername(ctx context.Context, username string) (*ZeroUser, error) {
-	zeroUserUsernameKey := fmt.Sprintf("%s%v", cacheZeroUserUsernamePrefix, username)
 	var resp ZeroUser
-	err := m.QueryRowIndexCtx(ctx, &resp, zeroUserUsernameKey, m.formatPrimary, func(ctx context.Context, conn sqlx.SqlConn, v any) (i any, e error) {
-		query := fmt.Sprintf("select %s from %s where `username` = ? limit 1", zeroUserRows, m.table)
-		if err := conn.QueryRowCtx(ctx, &resp, query, username); err != nil {
-			return nil, err
-		}
-		return resp.Username, nil
-	}, m.queryPrimary)
+	query := fmt.Sprintf("select %s from %s where `username` = ? limit 1", zeroUserRows, m.table)
+	err := m.QueryRowNoCacheCtx(ctx, &resp, query, username)
 	switch err {
 	case nil:
 		return &resp, nil

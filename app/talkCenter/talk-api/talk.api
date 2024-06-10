@@ -5,9 +5,16 @@ type (
 		RoomId   int64  `json:"roomId"`
 		Name     string `json:"name"`
 		GiftType string `json:"giftType"`
-		Price    int64  `json:"price"`
 	}
 	SendGiftResp {
+		status int64 `json:"status"`
+	}
+	SendRaffleReq {
+		RoomId int64 `json:"roomId"`
+		Name   string `json:"name"`//谁发起的
+		
+	}
+	SendRaffleResp {
 		status int64 `json:"status"`
 	}
 	CreatRoomReq {

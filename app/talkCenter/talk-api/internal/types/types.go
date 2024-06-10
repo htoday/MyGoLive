@@ -13,7 +13,6 @@ type SendGiftReq struct {
 	RoomId   int64  `json:"roomId"`
 	Name     string `json:"name"`
 	GiftType string `json:"giftType"`
-	Price    int64  `json:"price"`
 }
 
 type SendGiftResp struct {
