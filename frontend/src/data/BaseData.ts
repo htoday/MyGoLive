@@ -14,9 +14,6 @@ export const baseData={
         getBaseUrl:function(){
             return this.protocol+"://"+this.hostname+":"+this.port+"/v1";
         },
-        getGiftUrl:function (){
-            return this.protocol+"://"+this.hostname+":"+this.port;
-        }
 
     },
     roomApiServer:{
@@ -47,6 +44,14 @@ export const baseData={
         hostname:"localhost",
         port:8890,
         protocol:"ws",
+        getBaseUrl:function(){
+            return this.protocol+"://"+this.hostname+":"+this.port;
+        }
+    },
+    giftServer:{
+        hostname:"localhost",
+        port:8890,
+        protocol:"http",
         getBaseUrl:function(){
             return this.protocol+"://"+this.hostname+":"+this.port;
         }
