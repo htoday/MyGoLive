@@ -33,7 +33,8 @@ export function GiftItem(props:{
                     throw new Error("请求失败")
                 }
                 return res.json()
-            }).then(()=>{
+            }).then((data)=>{
+                if(data.status!==200) throw new Error("请求失败")
                 alert("发送礼物成功!")
             }).catch(()=>{
                 alert("发送礼物失败! 请检查你的金额或网络连接!")
