@@ -6,6 +6,7 @@ import {Room} from "../../../../api/room.ts";
 import {baseData} from "../../../../data/BaseData.ts";
 import {Message, MessageType} from "../../../../api/communication.ts";
 import {getGiftByName, Gift} from "../../../../api/gift.ts";
+import {GiftDisplay} from "./components/GiftDisplay/GiftDisplay.tsx";
 const defaultMessage=[
     new Message(MessageType.TEXT,"你好啊","系2统"),
     new Message(MessageType.TEXT,"AAA","我"),
@@ -69,6 +70,7 @@ export function Channel(props:{
             <GiftLayer gifts={gifts} clearGifts={()=>{
                 setGifts([])
             }}></GiftLayer>
+            <GiftDisplay room={room}/>
             {<Video
                 title={room.roomName}
                 url={broadcastUrl}

@@ -30,3 +30,17 @@ export function getGiftByName(name:string):GiftType | undefined{
             return undefined
     }
 }
+export class SendGiftRequest{
+    constructor(
+        public roomId:number,
+        public name:string,
+        public giftType:string,
+    ) {
+    }
+}
+export class SendGiftResponse{
+    constructor(
+        public status:number,
+    ) {
+    }
+}
