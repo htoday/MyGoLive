@@ -16,7 +16,7 @@ export default function Video(props:VideoProps){
             type: 'flv',// 指定视频类型
             url: props.url, // 指定流链接
             isLive: true,// 开启直播
-            hasAudio: false,  // 开启/关闭 声音
+            hasAudio: true,  // 开启/关闭 声音
             cors: true,  // 开启跨域访问
             hasVideo: true,
             duration: 0,

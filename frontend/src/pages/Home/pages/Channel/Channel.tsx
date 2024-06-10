@@ -7,28 +7,21 @@ import {baseData} from "../../../../data/BaseData.ts";
 import {Message, MessageType} from "../../../../api/communication.ts";
 import {getGiftByName, Gift} from "../../../../api/gift.ts";
 import {GiftDisplay} from "./components/GiftDisplay/GiftDisplay.tsx";
-const defaultMessage=[
-    new Message(MessageType.TEXT,"你好啊","系2统"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-    new Message(MessageType.TEXT,"AAA","我"),
-]
+const defaultMessage:Message[]=[]
 export function Channel(props:{
     room:Room|null
 }){
     const [gifts,setGifts]=useState([] as Gift[])
     const [message,setMessage]=useState(defaultMessage)
-    let webSocket: WebSocket | null=null
+    const [webSocket,setWebSocket]=useState(null as WebSocket|null)
     const initializeWebSocket=()=>{
         const url=baseData.webSocketServer.getBaseUrl()+"/ws/"+room.roomId
-        webSocket = new WebSocket(url)
-        webSocket.onopen = function () {
+        const socket=new WebSocket(url)
+        console.log("webSocket连接地址:"+url)
+        socket.onopen = function () {
             console.log("webSocket打开成功")
         }
-
-        webSocket.onmessage = function (event) {
+        socket.onmessage = function (event) {
             const data=JSON.parse(event.data) as Message
             switch (data.msgType){
                 case MessageType.TEXT.valueOf():{
@@ -47,6 +40,7 @@ export function Channel(props:{
                 }
             }
         }
+        setWebSocket(socket)
     }
     if(props.room===null){
         alert("请先在主页选择一个房间加入!")
