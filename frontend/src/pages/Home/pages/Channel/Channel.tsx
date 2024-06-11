@@ -7,6 +7,7 @@ import {baseData} from "../../../../data/BaseData.ts";
 import {Message, MessageType} from "../../../../api/communication.ts";
 import {getGiftByName, Gift} from "../../../../api/gift.ts";
 import {GiftDisplay} from "./components/GiftDisplay/GiftDisplay.tsx";
+import {Raffle} from "./components/Raffle/Raffle.tsx";
 const defaultMessage:Message[]=[]
 export function Channel(props:{
     room:Room|null
@@ -65,13 +66,8 @@ export function Channel(props:{
                 setGifts([])
             }}></GiftLayer>
             <GiftDisplay room={room}/>
-            {<Video
-                title={room.roomName}
-                url={broadcastUrl}
-                owner={room.roomOwner}
-                />
-
-            }
+            <Raffle visible={true} content={"奖品"} endTime={0} joined={true} winnerNumber={2}/>
+            <Video title={room.roomName} url={broadcastUrl} owner={room.roomOwner}/>
         </>
     )
 }
