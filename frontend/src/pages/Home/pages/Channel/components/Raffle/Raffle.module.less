@@ -1,0 +1,104 @@
+div.expand_content{
+    width: 200px;
+    height: fit-content;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    position: absolute;
+    z-index: 500;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: 0.25s all ease-in-out,0s left,0s top;
+    &:active{
+        transform: scale(0.95);
+    }
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+    h1{
+        font-size: 20px;
+        color: #00000055;
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+        user-select: none;
+    }
+    p{
+        margin-top: 0;
+        font-size: 16px;
+        color: #00000055;
+        text-align: center;
+        width: 100%;
+        user-select: none;
+        font-weight: 400;
+        font-family: "Microsoft JhengHei UI",sans-serif;
+    }
+    button.joined{
+        height: 100px;
+        width: 100px;
+        border-radius: 15px;
+        background: rgba(241, 255, 0, 0.33);
+        margin-bottom: 10px;
+        transition: all 0.25s ease-in-out;
+        &:hover{
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+        &:active{
+            transform: scale(0.95);
+        }
+        font-size: 24px;
+        font-weight: 600;
+        color: #00000055;
+        background: #41414155;
+        user-select: none;
+    }
+    button.join{
+        height: 100px;
+        width: 100px;
+        border-radius: 15px;
+        background: rgba(241, 255, 0, 0.33);
+        margin-bottom: 10px;
+        transition: all 0.25s ease-in-out;
+        &:hover{
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+        &:active{
+            transform: scale(0.95);
+        }
+        font-size: 24px;
+        font-weight: 600;
+        color: #00000055;
+        user-select: none;
+    }
+}
+div.not_expand{
+    width: 200px;
+    height: 50px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    position: absolute;
+    backdrop-filter: blur(20px);
+    z-index: 500;
+    transition: 0.25s all ease-in-out,0s left,0s top;
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+    &:active{
+        transform: scale(0.95);
+    }
+    h1{
+        font-size: 20px;
+        color: #00000055;
+        text-align: center;
+        width: 100%;
+        user-select: none;
+    }
+}
