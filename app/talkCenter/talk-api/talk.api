@@ -10,9 +10,8 @@ type (
 		status int64 `json:"status"`
 	}
 	SendRaffleReq {
-		RoomId int64 `json:"roomId"`
-		Name   string `json:"name"`//谁发起的
-		
+		RoomId int64  `json:"roomId"`
+		Name   string `json:"name"` //谁发起的
 	}
 	SendRaffleResp {
 		status int64 `json:"status"`
@@ -21,6 +20,22 @@ type (
 		RoomId int64 `json:"roomId"`
 	}
 	CreatRoomResp {
+		status int64 `json:"status"`
+	}
+	StartRaffleReq {
+		RoomId    int64  `json:"roomId"`
+		PrizeName string `json:"prizeName"`
+		PrizeNum  int64  `json:"prizeNum"`
+		Duration  int64  `json:"duration"`
+	}
+	StartRaffleResp {
+		status int64 `json:"status"`
+	}
+	JoinRaffleReq {
+		userName string `json:"userName"`
+		roomId   int64  `json:"roomId"`
+	}
+	JoinRaffleResp {
 		status int64 `json:"status"`
 	}
 )
@@ -47,5 +62,13 @@ service talkCenter {
 	@doc "creatRoom"
 	@handler creatRoomHandler
 	post /creatRoom (CreatRoomReq) returns (CreatRoomResp)
+
+	@doc "startRaffle"
+	@handler startRaffleHandler
+	post /startRaffle (StartRaffleReq) returns (StartRaffleResp)
+
+	@doc "joinRaffle"
+	@handler joinRaffleHandler
+	post /joinRaffle (JoinRaffleReq) returns (JoinRaffleResp)
 }
 

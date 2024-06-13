@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"net/http"
 
 	"mygo/app/roomCenter/room-api/internal/config"
@@ -29,7 +30,10 @@ func main() {
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
 	}, "*"))
 	defer server.Stop()
-
+	err := c.SetUp()
+	if err != nil {
+		log.Fatal(err)
+	}
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 

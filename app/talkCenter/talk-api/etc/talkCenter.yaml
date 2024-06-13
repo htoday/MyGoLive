@@ -3,9 +3,24 @@ Host: 0.0.0.0
 Port: 8890
 Timeout: 0
 
+Telemetry:
+  Name: talk-api
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9090
+  Path: /metrics
 
 UserRpcConf:
   Etcd:
     Hosts:
       - 127.0.0.1:2379
     Key: user.rpc
+
+TalkRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: talk.rpc

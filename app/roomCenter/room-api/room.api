@@ -60,6 +60,7 @@ type (
 		status    int64 `json:"status"`
 		viewerNum int64 `json:"viewerNum"`
 	}
+
 )
 
 @server (

@@ -24,3 +24,7 @@ KqPusherConf:
 CacheConf:
   - Host: 127.0.0.1:6379
     Pass:
+Prometheus:
+  Host: 0.0.0.0
+  Port: 6470
+  Path: /metrics

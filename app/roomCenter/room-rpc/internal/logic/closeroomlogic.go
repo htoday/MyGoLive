@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"strconv"
 
 	"mygo/app/roomCenter/room-rpc/internal/svc"
 	"mygo/app/roomCenter/room-rpc/pb/pb"
@@ -24,7 +25,15 @@ func NewCloseRoomLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CloseRo
 }
 
 func (l *CloseRoomLogic) CloseRoom(in *pb.CloseRoomRequest) (*pb.CloseRoomResponse, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.CloseRoomResponse{}, nil
+	err := l.svcCtx.DB.Delete(l.ctx, in.RoomId)
+	_, err = l.svcCtx.RDB.Del("room:" + strconv.FormatInt(in.RoomId, 10))
+	if err != nil {
+		return &pb.CloseRoomResponse{
+			Status: 400,
+		}, nil
+	}
+	return &pb.CloseRoomResponse{
+		Status: 200,
+	}, nil
 }

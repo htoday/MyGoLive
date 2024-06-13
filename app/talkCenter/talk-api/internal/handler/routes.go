@@ -29,6 +29,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: talk.GiftHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodPost,
+				Path:    "/joinRaffle",
+				Handler: talk.JoinRaffleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/startRaffle",
+				Handler: talk.StartRaffleHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/ws/:room",
 				Handler: talk.TalkWSHandler(serverCtx),
