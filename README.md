@@ -39,7 +39,28 @@
 | 监控    | prometheus,grafana |
 | 推流    | livego             |
 
-#### 关于高并发
+#### 功能展示
+jaeger
+这里以room-rpc为例
+
+![image](images/1.png)
+prometheus
+
+![image](images/2.png)
+![image](images/3.png)
+
+大厅
+![image](images/6.png)
+
+点击开启直播间后可以获取直播间的推流地址
+
+![image](images/4.png)
+聊天,视频流与送礼
+
+![image](images/5.png)
+
+---
+#### 针对高并发的处理
 
 ###### 进出房间上锁
 
@@ -55,27 +76,15 @@
 
 使用gzip进行压缩和解压缩，降低消息体积
 
-#### 简单的测试
 
-jaeger
-这里以room-rpc为例
 
-![image](images/1.png)
-prometheus
 
-![image](images/2.png)
-![image](images/3.png)
-点击开启直播间后可以获取直播间的推流地址
-
-![image](images/4.png)
-聊天,视频流与送礼
-
-![image](images/5.png)
----
 
 ## 待优化的部分
 
 **将IM层和消息层分离**
+
+目前的消息层和IM层耦合在一起，不利于后续的拓展
 
 重构resp的status
 
