@@ -59,13 +59,17 @@
 
 jaeger
 这里以room-rpc为例
+
 ![image](images/1.png)
 prometheus
+
 ![image](images/2.png)
 ![image](images/3.png)
 点击开启直播间后可以获取直播间的推流地址
+
 ![image](images/4.png)
 聊天,视频流与送礼
+
 ![image](images/5.png)
 ---
 
