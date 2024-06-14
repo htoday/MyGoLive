@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.33.0
 // 	protoc        v3.19.4
-// source: talk.proto
+// source: model.proto
 
 package pb
 

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 
 	"mygo/app/talkCenter/talk-rpc/internal/svc"
 	"mygo/app/talkCenter/talk-rpc/pb/pb"
@@ -24,14 +25,14 @@ func NewJoinRaffleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *JoinRa
 }
 
 func (l *JoinRaffleLogic) JoinRaffle(in *pb.JoinRaffleReq) (*pb.JoinRaffleResp, error) {
-	_, ok := Raffles[in.RoomId]
-	if !ok {
-		return &pb.JoinRaffleResp{
-			Status: 400,
-		}, nil
+	key := fmt.Sprintf("raffle:%d:participants", in.RoomId)
+	exists, err := l.svcCtx.RDB.Exists(key)
+	if err != nil {
+		return &pb.JoinRaffleResp{Status: 400}, err
 	}
-	Raffles[in.RoomId].mu.Lock()
-	Raffles[in.RoomId].Participants = append(Raffles[in.RoomId].Participants, in.UserName)
-	Raffles[in.RoomId].mu.Unlock()
-	return &pb.JoinRaffleResp{}, nil
+	if exists == false {
+		return &pb.JoinRaffleResp{Status: 400}, nil
+	}
+	l.svcCtx.RDB.Set(key, in.UserName)
+	return &pb.JoinRaffleResp{Status: 200}, nil
 }

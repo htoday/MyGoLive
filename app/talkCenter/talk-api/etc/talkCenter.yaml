@@ -10,7 +10,7 @@ Telemetry:
   Batcher: jaeger
 Prometheus:
   Host: 0.0.0.0
-  Port: 9090
+  Port: 9095
   Path: /metrics
 
 UserRpcConf:

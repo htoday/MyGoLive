@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.19.4
-// source: talk.proto
+// source: model.proto
 
 package pb
 
@@ -216,5 +216,5 @@ var TalkRoomService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "talk.proto",
+	Metadata: "model.proto",
 }

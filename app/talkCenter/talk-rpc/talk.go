@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-
 	"mygo/app/talkCenter/talk-rpc/internal/config"
 	"mygo/app/talkCenter/talk-rpc/internal/server"
 	"mygo/app/talkCenter/talk-rpc/internal/svc"
@@ -33,7 +32,6 @@ func main() {
 		}
 	})
 	defer s.Stop()
-
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }

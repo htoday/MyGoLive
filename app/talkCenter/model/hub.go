@@ -1,12 +1,14 @@
 package model
 
 import (
+	"fmt"
 	"github.com/gorilla/websocket"
 	"sync"
 	"time"
 )
 
 var House = make(map[string]*Hub)
+
 var RoomMutexes = make(map[string]*sync.Mutex)
 var MutexForRoomMutexes = new(sync.Mutex)
 
@@ -73,6 +75,7 @@ func (h *Hub) Run() {
 				close(client.Send)
 				if len(h.Clients) == 0 {
 					delete(House, h.RoomId)
+					fmt.Println(h.RoomId, "房间已经关闭")
 					RoomMutexes[h.RoomId].Unlock()
 					return
 				}
@@ -105,4 +108,7 @@ func (h *Hub) BroadcastQueuedMessages() {
 	}
 	// 清空消息队列
 	h.MessageQueue = nil
+}
+func GetHouse() map[string]*Hub {
+	return House
 }

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	model "mygo/app/talkCenter/talk-api/talk"
+	"mygo/app/talkCenter/model"
 	"net/http"
 	"sync"
 
@@ -22,7 +22,7 @@ func TalkWSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		var req Request
 		httpx.Parse(r, &req)
 		roomId := req.Room
-		fmt.Println(roomId)
+
 		model.MutexForRoomMutexes.Lock()
 		roomMutex, ok := model.RoomMutexes[roomId]
 		if ok {
@@ -39,6 +39,7 @@ func TalkWSHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		} else {
 			hub = model.NewHub(roomId)
 			model.House[roomId] = hub
+			fmt.Println("创建", roomId, "房间")
 			go hub.Run()
 		}
 

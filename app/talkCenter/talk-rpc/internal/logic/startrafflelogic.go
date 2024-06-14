@@ -3,10 +3,9 @@ package logic
 import (
 	"context"
 	"encoding/json"
-	"math/rand"
-	model "mygo/app/talkCenter/talk-api/talk"
+	"fmt"
+	model "mygo/app/talkCenter/model"
 	"strconv"
-	"sync"
 	"time"
 
 	"mygo/app/talkCenter/talk-rpc/internal/svc"
@@ -30,47 +29,31 @@ func NewStartRaffleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Start
 }
 
 func (l *StartRaffleLogic) StartRaffle(in *pb.StartRaffleReq) (*pb.StartRaffleResp, error) {
-	_, ok := Raffles[in.RoomId]
-	if ok {
-		return &pb.StartRaffleResp{
-			Status: 400,
-		}, nil
-	}
-	go func() {
+	key := fmt.Sprintf("raffle:%d:participants", in.RoomId)
+	l.svcCtx.RDB.SetCtx(l.ctx, key, "youself")
 
-		var r Raffle
-		r = Raffle{
-			Participants: []string{},
-			prizeNum:     in.PrizeNum,
-			duration:     in.Duration,
-			PrizeName:    in.PrizeName,
-			mu:           sync.Mutex{},
-		}
-		Raffles[in.RoomId] = &r
+	go func() {
 		time.Sleep(time.Duration(in.Duration) * time.Second)
-		if int64(len(r.Participants)) < r.prizeNum {
-			delete(Raffles, in.RoomId)
-			var message model.Message
-			message.MsgType = 3
-			message.Content = "Raffle failed, not enough participants"
-			msgString, err := json.Marshal(message)
-			if err != nil {
-				logx.Error(err, "json marshal failed")
-			}
-			model.House[strconv.FormatInt(in.RoomId, 10)].Broadcast <- msgString
+		winners, err := l.svcCtx.RDB.SrandmemberCtx(l.ctx, key, int(in.PrizeNum))
+		if err != nil {
+			l.svcCtx.RDB.Del(key)
+			logx.Error(err)
 			return
 		}
-		winners := r.DrawWinners(int(r.prizeNum))
-		var message model.RaffleResult
+		var message model.Message
+		message.Name = "系统"
 		message.MsgType = 3
-		message.Winners = winners
-		message.PrizeName = r.PrizeName
-		msgString, err := json.Marshal(message)
+		winnersMsg, err := json.Marshal(winners)
 		if err != nil {
-			logx.Error(err, "json marshal failed")
+			logx.Error(err)
 		}
-		model.House[strconv.FormatInt(in.RoomId, 10)].Broadcast <- msgString
-		delete(Raffles, in.RoomId)
+		message.Content = string(winnersMsg)
+		msgJSON, err := json.Marshal(message)
+		if err != nil {
+			logx.Error(err)
+		}
+		model.House[strconv.FormatInt(in.RoomId, 10)].Broadcast <- msgJSON
+		l.svcCtx.RDB.Del(key)
 	}()
 
 	return &pb.StartRaffleResp{
@@ -78,27 +61,6 @@ func (l *StartRaffleLogic) StartRaffle(in *pb.StartRaffleReq) (*pb.StartRaffleRe
 	}, nil
 }
 
-var Raffles = make(map[int64]*Raffle)
-
-type Raffle struct {
-	Participants []string
-	prizeNum     int64
-	duration     int64
-	PrizeName    string
-	mu           sync.Mutex
-}
-
-func (r *Raffle) DrawWinners(n int) []string {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(len(r.Participants), func(i, j int) {
-		r.Participants[i], r.Participants[j] = r.Participants[j], r.Participants[i]
-	})
-
-	winners := r.Participants[:n]
-	r.Participants = r.Participants[n:]
-
-	return winners
+type RaffleMsg struct {
+	winners []string
 }
