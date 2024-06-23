@@ -1,0 +1,28 @@
+Name: chat.rpc
+ListenOn: 0.0.0.0:8084
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: chat.rpc
+
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9096
+  Path: /metrics
+
+Telemetry:
+  Name: chat-rpc
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+
+RedisConf:
+  Host: localhost:6379
+  Type: node
+  Pass: ""

@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
+	"mygo/app/talkCenter/model"
+	"strconv"
 
 	"mygo/app/roomCenter/room-rpc/internal/svc"
 	"mygo/app/roomCenter/room-rpc/pb/pb"
@@ -27,21 +27,22 @@ func NewGetOneRoomViewNumLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *GetOneRoomViewNumLogic) GetOneRoomViewNum(in *pb.GetOneRoomViewNumRequest) (*pb.GetOneRoomViewNumResponse, error) {
 	// todo: add your logic here and delete this line
-	roomKey := fmt.Sprintf("room:%d", in.RoomId)
-	roomData, err := l.svcCtx.RDB.Get(roomKey)
-	if err != nil {
-		return nil, err
-	}
-
-	var room RDBRoom
-	err = json.Unmarshal([]byte(roomData), &room)
-	if err != nil {
-		return nil, err
-	}
-
+	//roomKey := fmt.Sprintf("room:%d", in.RoomId)
+	//roomData, err := l.svcCtx.RDB.Get(roomKey)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//
+	//var room RDBRoom
+	//err = json.Unmarshal([]byte(roomData), &room)
+	//if err != nil {
+	//	return nil, err
+	//}
+	thishub := model.House[strconv.FormatInt(in.RoomId, 10)]
+	//room.viewNum = int64(len(thishub.Clients))
 	return &pb.GetOneRoomViewNumResponse{
 		Status:    200,
-		ViewerNum: room.viewNum,
+		ViewerNum: int64(len(thishub.Clients)),
 	}, nil
 
 }

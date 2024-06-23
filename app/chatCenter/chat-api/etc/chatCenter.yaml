@@ -1,0 +1,21 @@
+Name: chatCenter
+Host: 0.0.0.0
+Port: 8890
+
+Telemetry:
+  Name: chat-api
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9094
+  Path: /metrics
+
+ChatRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: chat.rpc
+

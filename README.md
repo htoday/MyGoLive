@@ -26,18 +26,18 @@
 
 ## 技术栈
 
-| 功能    | 实现                 |
-| ----- | ------------------ |
-| rpc框架 | go-zero            |
-| 长连接   | websocekt          |
-| 数据库   | mysql              |
-| 缓存    | redis              |
-| 鉴权    | jwt                |
-| 服务与发现 | etcd               |
-| 消息队列  | go-queue，channel   |
-| 链路追踪  | jaeger             |
-| 监控    | prometheus,grafana |
-| 推流    | livego             |
+| 功能    | 实现                        |
+| ----- |---------------------------|
+| rpc框架 | go-zero                   |
+| 长连接   | websocekt                 |
+| 数据库   | mysql                     |
+| 缓存    | redis                     |
+| 鉴权    | jwt                       |
+| 服务与发现 | etcd                      |
+| 消息队列  | go-queue，rabbitMQ |
+| 链路追踪  | jaeger                    |
+| 监控    | prometheus,grafana        |
+| 推流    | livego                    |
 
 #### 功能展示
 jaeger
@@ -64,7 +64,7 @@ prometheus
 
 ###### 进出房间上锁
 
-使用悲观锁防止房间内register和unregister的冲突
+使用悲观锁防止房间内register和unregister的冲突(已弃用)
 
 ###### 消息聚合
 

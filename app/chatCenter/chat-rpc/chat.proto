@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+message CreatRoomReq{
+  int64  roomId=1;
+}
+message CreatRoomResp{
+  int64  status=200;
+}
+
+message SendGiftReq{
+  int64  roomId=1;
+  string  giftType=2;
+  string Name=3;
+}
+message SendGiftResp{
+  int64  status=200;
+}
+
+message StartRaffleReq{
+  int64  roomId=1;
+  string prizeName=2;
+  int64  prizeNum=3;
+  int64 duration=4;
+}
+message StartRaffleResp{
+  int64  status=200;
+}
+message JoinRaffleReq{
+  int64  roomId=1;
+  string userName=2;
+}
+message JoinRaffleResp{
+  int64  status=200;
+}
+service ChatRoomService{
+  rpc CreatRoom (CreatRoomReq) returns (CreatRoomResp);
+  rpc SendGift (SendGiftReq) returns (SendGiftResp);
+  rpc StartRaffle (StartRaffleReq) returns (StartRaffleResp);
+  rpc JoinRaffle (JoinRaffleReq) returns (JoinRaffleResp);
+}
